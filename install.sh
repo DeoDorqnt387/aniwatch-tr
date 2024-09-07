@@ -2,7 +2,7 @@
 
 # İzinleri ayarlama ve dosyayı taşımak
 sudo chmod +x aniwatch-tr/aniwatch-tr
-sudo mv aniwatch-tr/aniwatch-tr /usr/local/bin
+sudo mv aniwatch-tr /usr/local/bin
 
 # Kaynak dizinini taşımak ve izinlerini ayarlamak
 sudo mv aniwatch-tr ~/.aniwatch-tr_src
