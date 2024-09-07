@@ -6,10 +6,8 @@
     Terminalden anime izleme, indirme.
 </h3>
 
+[![Video Thumbnail](https://github.com/user-attachments/assets/845b3f41-a584-424a-a2cb-cb835edeebc1)](https://github.com/user-attachments/assets/845b3f41-a584-424a-a2cb-cb835edeebc1)
 
-<p align="center">
-   https://github.com/user-attachments/assets/845b3f41-a584-424a-a2cb-cb835edeebc1
-</p>
 
 <h1 align="center">
     <b>Kurulum</b>
