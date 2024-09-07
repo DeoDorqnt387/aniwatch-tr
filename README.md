@@ -19,6 +19,7 @@
 
 
 Bilgisayarınızda **mpv** programının kurulu olduğundan emin olun. Eğer kurulu değilse, aşağıdaki adımları izleyerek kurabilirsiniz:
+
 **Arch:**
 ```bash
 sudo pacman -S mpv
@@ -28,10 +29,6 @@ sudo pacman -S mpv
 sudo apt-get install mpv
 ```
 **Fedora**
-
-
-
-
 ```bash
 sudo dnf install mpv
 ```
