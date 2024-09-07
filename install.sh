@@ -17,6 +17,6 @@ pip install -r requirements.txt
 
 # Python betiğini çalıştır
 echo "Python betiği çalıştırılıyor..."
-python ~/path/to/my_script.py
+python ~/main.py
 
 echo "Kurulum ve Python betiği çalıştırma işlemleri tamamlandı!"
