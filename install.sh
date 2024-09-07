@@ -13,13 +13,13 @@ source .venv/bin/activate
 pip install -r requirements.txt
 
 # Python dosyasına çalıştırma izni ver
-chmod +x main.py
+chmod +x aniwatch-tr.py
 
 # Programı /usr/local/bin dizinine sembolik link oluştur
 cat << EOF | sudo tee /usr/local/bin/aniwatch-tr > /dev/null
 #!/bin/bash
 source $(pwd)/.venv/bin/activate
-exec python3 $(pwd)/main.py "\$@"
+exec python3 $(pwd)/aniwatch-tr.py "\$@"
 EOF
 
 # Betiğe çalıştırma izni ver
