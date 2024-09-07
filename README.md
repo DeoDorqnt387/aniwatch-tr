@@ -26,8 +26,10 @@ sudo apt-get install mpv
 ```bash
 sudo dnf install mpv
 ```
+<h1 align="center">
+    <b>Kurulum</b>
+</h1>
 
-**Kurulum**
 ```bash
 cd ~ && git clone https://github.com/DeoDorqnt387/aniwatch-tr.git && bash aniwatch-tr/install.sh
 sudo cp ~/aniwatch-tr/main.py /usr/local/bin/aniwatch-tr
