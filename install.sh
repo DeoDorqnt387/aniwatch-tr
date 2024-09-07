@@ -11,7 +11,6 @@ sudo chmod 777 ~/.aniwatch_src/*
 
 # Sanal ortam oluştur ve bağımlılıkları yükle
 cd ~/.aniwatch_src && sudo python3 -m venv .venv
-cd ~/.aniwatch_src && sudo .venv/bin/pip install requests yt-dlp inquirer termcolor
-cd ~/.aniwatch_src && sudo .venv/bin/pip install https://github.com/DeoDorqnt387/aniwatch-tr.git
+cd ~/.aniwatch_src && sudo .venv/bin/pip install requests inquirer
 
 echo "Kurulum tamamlandı. 'aniwatch-tr' komutunu kullanarak programı çalıştırabilirsiniz."
