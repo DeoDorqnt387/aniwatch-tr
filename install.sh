@@ -15,8 +15,4 @@ echo "Python paketleri yükleniyor..."
 pip install --upgrade pip
 pip install -r requirements.txt
 
-# Python betiğini çalıştır
-echo "Python betiği çalıştırılıyor..."
-python ~/main.py
-
-echo "Kurulum ve Python betiği çalıştırma işlemleri tamamlandı!"
+echo "Kurulum Tamamlandı Terminale 'aniwatch-tr' Yazarak, Çalıştırabilirsiniz."
