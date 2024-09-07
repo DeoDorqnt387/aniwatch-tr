@@ -7,9 +7,9 @@
 </h3>
 
 
-<h3 align="center">
+<p align="center">
    https://github.com/user-attachments/assets/845b3f41-a584-424a-a2cb-cb835edeebc1
-</h3>
+</p>
 
 <h1 align="center">
     <b>Kurulum</b>
