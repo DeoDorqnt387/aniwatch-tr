@@ -74,7 +74,7 @@ class GetAnimeApp:
             self.select_and_play_episode()
         elif option == 'Anime Ara':
             self.search_anime()
-        elif option == 'Bölüm İndir':
+        elif option == 'Bölümü İndir':
             self.download_episode()
         elif option == 'Çık':
             print("Çıkılıyor.")
