@@ -16,4 +16,4 @@ cd ~/.aniwatch-tr_src
 python3 -m venv .venv
 
 # Paketleri yükleme
-.venv/bin/pip install requests yt-dlp inquirerpy termcolor
+.venv/bin/pip install -r requirements.txt
