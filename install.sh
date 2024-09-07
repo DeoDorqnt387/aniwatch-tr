@@ -1,18 +1,19 @@
 #!/bin/bash
 
-# Klonlanmış dizine geçiş yap
-cd aniwatch-tr
+# İzinleri ayarlama ve dosyayı taşımak
+sudo chmod +x aniwatch-tr/aniwatch-tr
+sudo mv aniwatch-tr/aniwatch-tr /usr/local/bin
 
-# Sanal ortam oluştur ve etkinleştir
-echo "Sanal ortam oluşturuluyor..."
-python3 -m venv venv
+# Kaynak dizinini taşımak ve izinlerini ayarlamak
+sudo mv aniwatch-tr ~/.aniwatch-tr_src
+sudo chmod 777 ~/.aniwatch-tr_src
+sudo chmod 777 ~/.aniwatch-tr_src/*
 
-echo "Sanal ortam etkinleştiriliyor..."
-source venv/bin/activate
+# Sanal ortamı oluşturup gerekli paketleri yüklemek
+cd ~/.aniwatch-tr_src
 
-# Gerekli Python paketlerini yükle
-echo "Python paketleri yükleniyor..."
-pip install --upgrade pip
-pip install -r requirements.txt
+# Python sanal ortamını oluşturma
+python3 -m venv .venv
 
-echo "Kurulum Tamamlandı Terminale 'aniwatch-tr' Yazarak, Çalıştırabilirsiniz."
+# Paketleri yükleme
+.venv/bin/pip install requests yt-dlp inquirerpy termcolor
