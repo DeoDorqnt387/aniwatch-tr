@@ -11,7 +11,8 @@
 </h1>
 
 
-Bilgisayarınızda **mpv** kurulu olduğuna emin olun. Eğer kurulu değilse:
+Bilgisayarınızda **mpv** programının kurulu olduğundan emin olun. Eğer kurulu değilse, aşağıdaki adımları izleyerek kurabilirsiniz:
+
 
 **Arch için:**
 ```bash
