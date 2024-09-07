@@ -1,16 +1,17 @@
 #!/bin/bash
 
-# Gerekli izinleri ayarla ve komut dosyasını /usr/local/bin'e taşı
-sudo chmod +x aniwatch-tr/aniwatch-tr
-sudo mv aniwatch-tr/aniwatch-tr /usr/local/bin/aniwatch-tr
+# Proje dizinine geç
+cd "$(dirname "$0")"
 
-# Proje klasörünü home dizinine taşı ve gerekli izinleri ayarla
-sudo mv .aniwatch-tr ~/.aniwatch-tr
-sudo chmod 777 ~/.aniwatch-tr
-sudo chmod 777 ~/.aniwatch-tr/*
+# Program dosyasını çalıştırılabilir yap
+chmod +x main.py
 
-# Sanal ortam oluştur ve bağımlılıkları yükle
-cd ~/.aniwatch_src && sudo python3 -m venv .venv
-cd ~/.aniwatch_src && sudo .venv/bin/pip install requests inquirer
+# Programı /usr/local/bin dizinine taşı ve PATH'e ekle
+sudo ln -sf "$(pwd)/main.py" /usr/local/bin/aniwatch-tr
+
+# Python sanal ortamını oluştur ve bağımlılıkları yükle
+python3 -m venv .venv
+source .venv/bin/activate
+pip install requests inquirer
 
 echo "Kurulum tamamlandı. 'aniwatch-tr' komutunu kullanarak programı çalıştırabilirsiniz."
