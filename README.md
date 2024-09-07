@@ -10,12 +10,14 @@
     <b>Kurulum</b>
 </h1>
 
-<p>Bilgisayarınızda <b>mpv</b> kurulu olduğuna emin olun eğer kurulu değilse:</p>
-Arch için:
-'''bash
+
+Bilgisayarınızda **mpv** kurulu olduğuna emin olun. Eğer kurulu değilse:
+
+**Arch için:**
+```bash
 sudo pacman -S mpv
-'''
-Ubuntu/debian için:
-'''bash
-sudo pacman -S mpv
-'''
+```
+Ubuntu/Debian
+```bash
+sudo apt-get install mpv
+```
