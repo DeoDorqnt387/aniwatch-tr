@@ -12,13 +12,15 @@
 
 
 Bilgisayarınızda **mpv** programının kurulu olduğundan emin olun. Eğer kurulu değilse, aşağıdaki adımları izleyerek kurabilirsiniz:
-
-
-**Arch için:**
+**Arch:**
 ```bash
 sudo pacman -S mpv
 ```
-Ubuntu/Debian
+**Ubuntu/Debian**
 ```bash
 sudo apt-get install mpv
+```
+**Fedora**
+```bash
+sudo dnf install mpv
 ```
