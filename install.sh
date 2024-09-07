@@ -1,28 +1,22 @@
 #!/bin/bash
 
-# Proje dizinine geç
-cd "$(dirname "$0")"
+# Klonlanmış dizine geçiş yap
+cd aniwatch-tr
 
-# Python sanal ortamını oluştur
-python3 -m venv .venv
+# Sanal ortam oluştur ve etkinleştir
+echo "Sanal ortam oluşturuluyor..."
+python3 -m venv venv
 
-# Sanal ortamı aktif et
-source .venv/bin/activate
+echo "Sanal ortam etkinleştiriliyor..."
+source venv/bin/activate
 
-# Bağımlılıkları yükle
+# Gerekli Python paketlerini yükle
+echo "Python paketleri yükleniyor..."
+pip install --upgrade pip
 pip install -r requirements.txt
 
-# Python dosyasına çalıştırma izni ver
-chmod +x aniwatch-tr.py
+# Python betiğini çalıştır
+echo "Python betiği çalıştırılıyor..."
+python ~/path/to/my_script.py
 
-# Programı /usr/local/bin dizinine sembolik link oluştur
-cat << EOF | sudo tee /usr/local/bin/aniwatch-tr > /dev/null
-#!/bin/bash
-source $(pwd)/.venv/bin/activate
-exec python3 $(pwd)/aniwatch-tr.py "\$@"
-EOF
-
-# Betiğe çalıştırma izni ver
-sudo chmod +x /usr/local/bin/aniwatch-tr
-
-echo "Kurulum tamamlandı. 'aniwatch-tr' komutunu kullanarak programı çalıştırabilirsiniz."
+echo "Kurulum ve Python betiği çalıştırma işlemleri tamamlandı!"
