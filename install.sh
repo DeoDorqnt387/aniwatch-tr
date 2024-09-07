@@ -3,6 +3,9 @@
 # Klonlanmış dizine geçiş yap
 cd aniwatch-tr
 
+# Klonlanmış dizine geçiş yap
+cd aniwatch-tr
+
 # Sanal ortam oluştur ve etkinleştir
 echo "Sanal ortam oluşturuluyor..."
 python3 -m venv venv
