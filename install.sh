@@ -3,15 +3,16 @@
 # Proje dizinine geç
 cd "$(dirname "$0")"
 
-# Program dosyasını çalıştırılabilir yap
-chmod +x main.py
-
-# Programı /usr/local/bin dizinine taşı ve PATH'e ekle
-sudo ln -sf "$(pwd)/main.py" /usr/local/bin/aniwatch-tr
-
-# Python sanal ortamını oluştur ve bağımlılıkları yükle
+# Python sanal ortamını oluştur
 python3 -m venv .venv
 source .venv/bin/activate
+
+# Bağımlılıkları yükle
 pip install -r requirements.txt
+
+# Python dosyasına çalıştırma izni ver
+chmod +x main.py
+# Betiğe çalıştırma izni ver
+sudo chmod +x /usr/local/bin/aniwatch-tr
 
 echo "Kurulum tamamlandı. 'aniwatch-tr' komutunu kullanarak programı çalıştırabilirsiniz."
