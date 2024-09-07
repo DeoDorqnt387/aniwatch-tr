@@ -51,8 +51,8 @@ class GetAnimeApp:
             'Sonraki Bölüm',
             'Önceki Bölüm',
             'Bölüm Seç',
+            'Bölümü İndir',
             'Anime Ara',
-            'Bölüm İndir',
             'Çık'
         ]
         
