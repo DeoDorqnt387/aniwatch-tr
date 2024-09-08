@@ -34,7 +34,7 @@ sudo dnf install mpv
 cd ~ && git clone https://github.com/DeoDorqnt387/aniwatch-tr.git && bash aniwatch-tr/install.sh
 ```
 ```bash
-sudo cp ~/aniwatch-tr/main.py /usr/local/bin/aniwatch-tr
+sudo cp ~/.aniwatch-tr/aniwatch-tr /usr/local/bin/aniwatch-tr
 ```
 ```bash
 aniwatch-tr
