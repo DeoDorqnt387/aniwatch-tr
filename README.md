@@ -6,7 +6,11 @@
     Terminalden anime izleme, indirme.
 </h3>
 
-[![Video Thumbnail](https://github.com/user-attachments/assets/514c2fbb-2f04-4bac-84c3-32c4d563caa3)](https://github.com/user-attachments/assets/514c2fbb-2f04-4bac-84c3-32c4d563caa3)
+
+
+
+
+[![Video Thumbnail](https://github.com/user-attachments/assets/af08bed4-6139-462e-992f-85c559e3e98f)](https://github.com/user-attachments/assets/af08bed4-6139-462e-992f-85c559e3e98f)
 
 <h1 align="center">
     <b>Ön Gereksinim</b>
