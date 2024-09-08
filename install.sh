@@ -5,10 +5,9 @@ sudo chmod +x aniwatch-tr
 sudo mv aniwatch-tr /usr/local/bin
 
 # Kaynak dizinini taşımak ve izinlerini ayarlamak
-sudo mv aniwatch-tr ~/.aniwatch-tr_src
-sudo chmod 777 ~/.aniwatch-tr_src
-sudo chmod 777 ~/.aniwatch-tr_src/*
-
+sudo cp ~/aniwatch-tr/main.py /usr/local/bin/aniwatch-tr
+sudo chmod +x /usr/local/bin/aniwatch-tr
+export PYTHONPATH=$PYTHONPATH:~/aniwatch-tr
 # Sanal ortamı oluşturup gerekli paketleri yüklemek
 cd ~/.aniwatch-tr_src
 
