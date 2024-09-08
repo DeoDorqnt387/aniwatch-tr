@@ -13,9 +13,6 @@ cd $PROJECT_DIR
 python3 -m venv .venv
 .venv/bin/pip install requests inquirer
 
-# Komut dosyasını sistem genelinde erişilebilir yapalım
-echo -e '#!/bin/bash\n'\
-'~/.aniwatch-tr/.venv/bin/python ~/.aniwatch-tr/main.py' | sudo tee /usr/local/bin/aniwatch-tr
 sudo chmod +x /usr/local/bin/aniwatch-tr
 
 echo "Kurulum tamamlandı. 'aniwatch-tr' komutunu kullanarak projeyi çalıştırabilirsiniz."
