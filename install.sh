@@ -1,8 +1,10 @@
 #!/bin/bash
 
 PROJECT_DIR="$HOME/.aniwatch-tr"
+cd "$PROJECT_DIR" || exit
 
-chmod +x $PROJECT_DIR/aniwatch-tr
+chmod +x "$PROJECT_DIR/aniwatch-tr"
 
-cd ~/.aniwatch-tr && sudo python3 -m venv .venv
-cd ~/.aniwatch-tr && sudo .venv/bin/pip install requests inquirer
+python3 -m venv .venv
+source .venv/bin/activate
+pip3 install requests inquirer
