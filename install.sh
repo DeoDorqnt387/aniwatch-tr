@@ -1,21 +1,32 @@
 #!/bin/bash
 
 # İzinleri ayarlama ve dosyayı taşımak
-sudo chmod +x aniwatch-tr/aniwatch-tr
-sudo mv aniwatch-tr/aniwatch-tr /usr/local/bin
+if [ -f aniwatch-tr/aniwatch-tr ]; then
+  sudo chmod +x aniwatch-tr/aniwatch-tr
+  sudo mv aniwatch-tr/aniwatch-tr /usr/local/bin
+else
+  echo "Dosya bulunamadı: aniwatch-tr/aniwatch-tr"
+  exit 1
+fi
 
 # Kaynak dizinini taşımak
-sudo mv aniwatch-tr ~/.aniwatch-tr_
+if [ -d aniwatch-tr ]; then
+  sudo mv aniwatch-tr ~/.aniwatch-tr
+else
+  echo "Dizin bulunamadı: aniwatch-tr"
+  exit 1
+fi
 
 # İzinleri ayarlamak
-sudo chmod 777 ~/.aniwatch-tr_
-sudo chmod 777 ~/.aniwatch-tr_/*
-
-# Sanal ortamı oluşturup gerekli paketleri yüklemek
-cd ~/.aniwatch-tr_src || { echo "Dizin mevcut değil: ~/.aniwatch-tr_src"; exit 1; }
-python3 -m venv .venv
+sudo chmod 755 ~/.aniwatch-tr
+sudo chmod 755 ~/.aniwatch-tr/*
 
 # Gereken Python paketlerini yükleme
-.venv/bin/pip install requests inquirer
+if [ -f ~/.aniwatch-tr/requirements.txt ]; then
+  pip install -r ~/.aniwatch-tr/requirements.txt
+else
+  echo "requirements.txt dosyası bulunamadı: ~/.aniwatch-tr/requirements.txt"
+  exit 1
+fi
 
 echo "Kurulum tamamlandı. Artık 'aniwatch-tr' komutunu kullanabilirsiniz."
