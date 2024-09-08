@@ -8,8 +8,8 @@ chmod +x $PROJECT_DIR/
 chmod 777 $PROJECT_DIR
 chmod 777 $PROJECT_DIR/*
 
-# Paketleri yükleyelim
-pip3 install requests inquirer
+cd ~/.aniwatch-tr && sudo python3 -m venv .venv
+cd ~/.aniwatch-tr && sudo .venv/bin/pip install requests inquirer
 
 # Komut dosyasını sistem genelinde erişilebilir yapalım
 echo -e '#!/bin/bash\npython3 '$PROJECT_DIR'/aniwatch-tr' | sudo tee /usr/local/bin/doccli
