@@ -4,7 +4,7 @@
 PROJECT_DIR="$HOME/.aniwatch-tr"
 
 # İzinleri ayarlayalım
-chmod +x $PROJECT_DIR/
+chmod +x $PROJECT_DIR/main.py
 chmod 777 $PROJECT_DIR
 chmod 777 $PROJECT_DIR/*
 
