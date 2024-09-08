@@ -26,6 +26,10 @@ sudo apt-get install mpv
 ```bash
 sudo dnf install mpv
 ```
+
+> [!WARNING]  
+> Windowsta MPV'yi Path'e Eklediğinizden Emin Olun!
+
 <h1 align="center">
     <b>Kurulum</b>
 </h1>
