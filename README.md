@@ -36,6 +36,9 @@ sudo cp ~/aniwatch-tr/main.py /usr/local/bin/aniwatch-tr
 sudo chmod +x /usr/local/bin/aniwatch-tr
 export PYTHONPATH=$PYTHONPATH:~/aniwatch-tr
 ```
+```bash
+aniwatch-tr
+```
 **Nasıl Kaldırılır?**
 ```bash
 sudo rm -r /usr/local/bin/aniwatch-tr
