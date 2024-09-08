@@ -12,7 +12,7 @@
     <b>Ön Gereksinim</b>
 </h1>
 
-Bilgisayarınızda **mpv** programının kurulu olduğundan emin olun. Eğer kurulu değilse, aşağıdaki adımları izleyerek kurabilirsiniz:
+Bilgisayarınızda [**mpv**](https://github.com/mpv-player/mpv) programının kurulu olduğundan emin olun. Eğer kurulu değilse, aşağıdaki adımları izleyerek kurabilirsiniz:
 
 **Arch:**
 ```bash
