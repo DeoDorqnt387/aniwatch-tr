@@ -1,7 +1,6 @@
 #!/bin/bash
 
 sudo chmod +x aniwatch-tr/aniwatch-tr
-sudo mv aniwatch-tr/aniwatch-tr /usr/local/bin
 
 sudo mv aniwatch-tr ~/.aniwatch-tr
 
