@@ -43,3 +43,7 @@ aniwatch-tr
 ```bash
 sudo rm -r /usr/local/bin/aniwatch-tr
 ```
+
+<hr>
+
+[Ani-cli](https://github.com/pystardust/ani-cli)'den Esinlenilmiştir.
