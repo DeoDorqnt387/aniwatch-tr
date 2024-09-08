@@ -122,6 +122,7 @@ class GetAnimeApp:
         else:
             print("Bölüm bilgileri bulunamadı.")
 
+    #BOZUK ÇALIŞMIYORRRRRR, Sebebi basit "downloda_url" diye bir şey yok evet... Url Olmasın o? Çözeriz bir ara
     def download_episode(self):
         if self.current_episode_index is not None:
             episode = self.episodes[self.current_episode_index]
