@@ -1,5 +1,8 @@
 #!/bin/bash
+
 sudo chmod +x aniwatch-tr/aniwatch-tr
+sudo chmod 755 aniwatch-tr
+sudo chmod 755 aniwatch-tr/*
 
 cd aniwatch-tr || exit
 sudo python3 -m venv .venv
