@@ -16,7 +16,6 @@ cd ~/.aniwatch-tr_src || { echo "Dizin mevcut değil: ~/.aniwatch-tr_src"; exit 
 python3 -m venv .venv
 
 # Gereken Python paketlerini yükleme
-.venv/bin/pip install requests yt-dlp inquirerpy termcolor
-.venv/bin/pip install https://github.com/qwertyquerty/pypresence/archive/master.zip
+.venv/bin/pip install requests yt-dlp inquirer
 
 echo "Kurulum tamamlandı. Artık 'aniwatch-tr' komutunu kullanabilirsiniz."
