@@ -1,0 +1,3 @@
+#!/bin/bash
+
+~/.aniwatch-tr/.venv/bin/python ~/.aniwatch-tr/main.py
