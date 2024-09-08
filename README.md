@@ -28,7 +28,7 @@ sudo dnf install mpv
 ```
 
 > [!WARNING]  
-> Windows'ta [MPV](https://github.com/shinchiro/mpv-winbuild-cmake/releases) uygulamasını Path'e eklediğinizden emin olun!
+> Windows'ta [MPV](https://github.com/shinchiro/mpv-winbuild-cmake/releases) uygulamasını Path'e Eklemeniz Gerekmekte.
 
 <h1 align="center">
     <b>Kurulum</b>
