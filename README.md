@@ -30,6 +30,12 @@ sudo dnf install mpv
     <b>Kurulum</b>
 </h1>
 
+**PIP**
+```bash
+pip install aniwatch-tr
+```
+
+**Manual Kurulum**
 ```bash
 cd ~ && git clone https://github.com/DeoDorqnt387/aniwatch-tr.git && bash aniwatch-tr/install.sh
 ```
