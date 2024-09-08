@@ -38,5 +38,5 @@ export PYTHONPATH=$PYTHONPATH:~/aniwatch-tr
 ```
 **Nasıl Kaldırılır?**
 ```bash
-sudo rm /usr/local/bin/aniwatch-tr
+sudo rm -r /usr/local/bin/aniwatch-tr
 ```
