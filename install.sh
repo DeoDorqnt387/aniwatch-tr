@@ -1,32 +1,20 @@
 #!/bin/bash
 
-# İzinleri ayarlama ve dosyayı taşımak
-if [ -f aniwatch-tr/aniwatch-tr ]; then
-  sudo chmod +x aniwatch-tr/aniwatch-tr
-  sudo mv aniwatch-tr/aniwatch-tr /usr/local/bin
-else
-  echo "Dosya bulunamadı: aniwatch-tr/aniwatch-tr"
-  exit 1
-fi
+# Projeyi klonlayalım
+git clone https://github.com/kullanici/aniwatch-tr.git ~/.aniwatch-tr
 
-# Kaynak dizinini taşımak
-if [ -d aniwatch-tr ]; then
-  sudo mv aniwatch-tr ~/.aniwatch-tr
-else
-  echo "Dizin bulunamadı: aniwatch-tr"
-  exit 1
-fi
+# Gerekli izinleri verelim
+sudo chmod +x ~/.aniwatch-tr
+sudo chmod 777 ~/.aniwatch-tr
 
-# İzinleri ayarlamak
-sudo chmod 755 ~/.aniwatch-tr
-sudo chmod 755 ~/.aniwatch-tr/*
+# Sanal ortamı oluşturalım
+cd ~/.aniwatch-tr && sudo python3 -m venv .venv
 
-# Gereken Python paketlerini yükleme
-if [ -f ~/.aniwatch-tr/requirements.txt ]; then
-  pip install -r ~/.aniwatch-tr/requirements.txt
-else
-  echo "requirements.txt dosyası bulunamadı: ~/.aniwatch-tr/requirements.txt"
-  exit 1
-fi
+# Gerekli paketleri yükleyelim
+cd ~/.aniwatch-tr && sudo .venv/bin/pip install requests inquirer
 
-echo "Kurulum tamamlandı. Artık 'aniwatch-tr' komutunu kullanabilirsiniz."
+# Kullanıcıya `aniwatch-tr` komutunu çalıştırabilmesi için gerekli ayarları yapalım
+echo -e '#!/bin/bash\ncd ~/.aniwatch-tr && .venv/bin/python aniwatch_tr.py' | sudo tee /usr/local/bin/aniwatch-tr
+sudo chmod +x /usr/local/bin/aniwatch-tr
+
+echo "Kurulum tamamlandı. 'aniwatch-tr' komutunu kullanarak projeyi çalıştırabilirsiniz."
