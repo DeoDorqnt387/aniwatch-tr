@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Projeyi klonlayalım
-git clone https://github.com/kullanici/aniwatch-tr.git ~/.aniwatch-tr
-
 # Gerekli izinleri verelim
 sudo chmod +x ~/.aniwatch-tr
 sudo chmod 777 ~/.aniwatch-tr
