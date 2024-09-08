@@ -5,11 +5,11 @@ sudo chmod +x aniwatch-tr/aniwatch-tr
 sudo mv aniwatch-tr/aniwatch-tr /usr/local/bin
 
 # Kaynak dizinini taşımak
-sudo mv aniwatch-tr ~/.aniwatch-tr_src
+sudo mv aniwatch-tr ~/.aniwatch-tr_
 
 # İzinleri ayarlamak
-sudo chmod 777 ~/.aniwatch-tr_src
-sudo chmod 777 ~/.aniwatch-tr_src/*
+sudo chmod 777 ~/.aniwatch-tr_
+sudo chmod 777 ~/.aniwatch-tr_/*
 
 # Sanal ortamı oluşturup gerekli paketleri yüklemek
 cd ~/.aniwatch-tr_src || { echo "Dizin mevcut değil: ~/.aniwatch-tr_src"; exit 1; }
