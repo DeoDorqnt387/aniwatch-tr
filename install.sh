@@ -2,7 +2,7 @@
 
 PROJECT_DIR="$HOME/.aniwatch-tr"
 
-chmod +x $PROJECT_DIR/aniwatch-tr.py
+chmod +x $PROJECT_DIR/aniwatch-tr
 
 cd $PROJECT_DIR
 python3 -m venv .venv
