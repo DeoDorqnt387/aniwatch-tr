@@ -1,12 +1,22 @@
 #!/bin/bash
 
 # İzinleri ayarlama ve dosyayı taşımak
-sudo chmod +x aniwatch-tr
-sudo mv aniwatch-tr /usr/local/bin/
+sudo chmod +x aniwatch-tr/aniwatch-tr
+sudo mv aniwatch-tr/aniwatch-tr /usr/local/bin
 
-sudo cp -r ~/aniwatch-tr /usr/local/aniwatch-tr
-sudo chmod +x /usr/local/aniwatch-tr/main.py
+# Kaynak dizinini taşımak
+sudo mv aniwatch-tr ~/.aniwatch-tr_src
 
-pip install -r ~/aniwatch-tr/requirements.txt
+# İzinleri ayarlamak
+sudo chmod 777 ~/.aniwatch-tr_src
+sudo chmod 777 ~/.aniwatch-tr_src/*
+
+# Sanal ortamı oluşturup gerekli paketleri yüklemek
+cd ~/.aniwatch-tr_src || { echo "Dizin mevcut değil: ~/.aniwatch-tr_src"; exit 1; }
+python3 -m venv .venv
+
+# Gereken Python paketlerini yükleme
+.venv/bin/pip install requests yt-dlp inquirerpy termcolor
+.venv/bin/pip install https://github.com/qwertyquerty/pypresence/archive/master.zip
 
 echo "Kurulum tamamlandı. Artık 'aniwatch-tr' komutunu kullanabilirsiniz."
