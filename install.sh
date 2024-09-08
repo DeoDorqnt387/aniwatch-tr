@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # İzinleri ayarlama ve dosyayı taşımak
-sudo chmod +x aniwatch-tr/aniwatch-tr
+sudo chmod +x aniwatch-tr
 sudo mv aniwatch-tr /usr/local/bin
 
 # Kaynak dizinini taşımak ve izinlerini ayarlamak
