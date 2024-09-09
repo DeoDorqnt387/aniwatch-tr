@@ -6,7 +6,7 @@
     Terminalden Türkçe anime izleme, indirme.
 </h3>
 
-[![Video Thumbnail](https://github.com/user-attachments/assets/8b9a9b5f-19a6-4c1c-872a-8026ed95ed1f)](https://github.com/user-attachments/assets/8b9a9b5f-19a6-4c1c-872a-8026ed95ed1f)
+[![Video Thumbnail](https://github.com/user-attachments/assets/44b9d628-f96c-4baf-aec1-28e9f2472621)](https://github.com/user-attachments/assets/44b9d628-f96c-4baf-aec1-28e9f2472621)
 
 <h1 align="center">
     <b>Ön Gereksinim</b>
