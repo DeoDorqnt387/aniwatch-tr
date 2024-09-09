@@ -3,7 +3,7 @@
 </h1>
 
 <h3 align="center">
-    Terminalden anime izleme, indirme.
+    Terminalden Türkçe anime izleme, indirme.
 </h3>
 
 [![Video Thumbnail](https://github.com/user-attachments/assets/8b9a9b5f-19a6-4c1c-872a-8026ed95ed1f)](https://github.com/user-attachments/assets/8b9a9b5f-19a6-4c1c-872a-8026ed95ed1f)
