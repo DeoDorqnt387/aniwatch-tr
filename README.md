@@ -46,8 +46,12 @@ cd ~ && git clone https://github.com/DeoDorqnt387/aniwatch-tr.git && bash aniwat
 ```bash
 sudo cp ~/.aniwatch-tr/aniwatch-tr /usr/local/bin/aniwatch-tr
 ```
+**Kullanım**
 ```bash
 aniwatch-tr
+```
+```bash
+aniwatch-tr -v # Opsyionel VLC Kullanımı
 ```
 **Nasıl Kaldırılır?**
 ```bash
