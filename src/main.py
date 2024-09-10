@@ -61,7 +61,7 @@ class GetAnimeApp:
             'Çık'
         ]
         
-        print(f"\nOynatılıyor: {self.current_anime_name} (tr-altyazılı) | 1080p | {self.current_episode_index + 1}/{len(self.episodes)}" if self.current_anime_name else "")
+        print(f"Oynatılıyor: {self.current_anime_name} (tr-altyazılı) | 1080p | {self.current_episode_index + 1}/{len(self.episodes)}" if self.current_anime_name else "")
         option = self.select_option(menu_choices, "Bir seçenek giriniz:")
         return option
 
@@ -130,21 +130,34 @@ class GetAnimeApp:
     #BOZUK ÇALIŞMIYORRRRRR, WELP PLEASE HETAI!!!
     def download_episode(self):
         if self.current_episode_index is not None:
-            episode_name = self.episodes[self.current_episode_index]['name'] #???!?!?!??!
-            download_url = self.episodes[self.current_episode_index].get('url', '') # ?!?!?!?!?!?!?
-            #print(f"{download_url}")
+            episode_name = self.episodes[self.current_episode_index]['name']
+            episode_url = self.episodes[self.current_episode_index]['url']
+            anime_name = self.current_anime_name
 
-            if not download_url:
+            base_directory = 'animeler'
+            if not os.path.exists(base_directory):
+                os.makedirs(base_directory)
+
+            anime_directory = os.path.join(base_directory, anime_name)
+            if not os.path.exists(anime_directory):
+                os.makedirs(anime_directory)
+
+            watch_anime_instance = watch_anime(use_vlc=self.use_vlc)
+            urls = watch_anime_instance.fetch_anime_api_watch_url(episode_url)
+
+            if not urls or not urls[0].get('url'):
                 print("İndirme URL'si bulunamadı.")
                 return
 
+            download_url = urls[0]['url']
             file_name = f"{episode_name}.mp4"
+            file_path = os.path.join(anime_directory, file_name)
 
             try:
                 print(f"{episode_name} indiriliyor...")
 
-                subprocess.run(['yt-dlp', '-o', file_name, download_url], check=True)
-                print(f"Bölüm başarıyla indirildi: {file_name}")
+                subprocess.run(['yt-dlp', '-o', file_path, download_url], check=True)
+                print(f"Bölüm başarıyla indirildi: {file_path}")
             except subprocess.CalledProcessError as e:
                 print(f"İndirme sırasında bir hata oluştu: {e}")
         else:
