@@ -9,4 +9,4 @@ sudo chmod 755 ~/.aniwatch-tr/*
 
 cd ~/.aniwatch-tr || exit
 python3 -m venv .venv
-.venv/bin/pip3 install requests inquirer
+.venv/bin/pip3 install requests inquirer yt-dlp
