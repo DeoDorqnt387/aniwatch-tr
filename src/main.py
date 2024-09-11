@@ -129,7 +129,7 @@ class GetAnimeApp:
         else:
             print("Bölüm bilgileri bulunamadı.")
 
-    def download_episode(self):
+    def download_episode(self): 
         if self.current_episode_index is not None:
             episode_name = self.episodes[self.current_episode_index]['name']
             episode_url = self.episodes[self.current_episode_index]['url']
@@ -158,20 +158,19 @@ class GetAnimeApp:
                     break
 
             if download_url:
-                file_name = f"{episode_name}.mp4"
+                file_name = f"{episode_name}.mp4"   
                 file_path = os.path.join(anime_directory, file_name)
 
                 try:
                     print(f"{episode_name} indiriliyor...")
-
                     subprocess.run(['yt-dlp', '-o', file_path, download_url], check=True)
                     print(f"Bölüm başarıyla indirildi: {file_path}")
                 except subprocess.CalledProcessError as e:
                     print(f"İndirme sırasında bir hata oluştu: {e}")
             else:
-                print("İndirme URL'si bulunamadı.")
+                print("Geçerli bir indirme URL'si bulunamadı.")
         else:
-            print("İndirilmesi gereken bir bölüm seçilmedi.")
+            print("Geçerli bir bölüm seçilmedi.")
 
     def play_episode(self, index):
         episode = self.episodes[index]
@@ -179,7 +178,30 @@ class GetAnimeApp:
         url = watch_anime(use_vlc=self.use_vlc).fetch_anime_api_watch_url(episode['url'])
         watch_anime(use_vlc=self.use_vlc).anime_watch(url)
 
-def main(): 
+    def main(self): 
+        query = input("Lütfen bir anime adı giriniz: ")
+        fetch_dt = fetch_data()
+        anime_data = fetch_dt.fetch_anime_data(query)
+
+        if not anime_data:
+            print("Sonuç bulunamadı.")
+            return
+        
+        selected_name, selected_id = self.select_anime(anime_data)
+
+        self.episodes = fetch_dt.fetch_anime_eps(selected_id=selected_id)
+        if self.episodes:
+            self.current_anime_name = selected_name
+            self.current_episode_index = 0           
+            
+            while True:
+                self.clear_screen()     
+                option = self.display_menu()     
+                self.handle_menu_option(option)
+        else:
+            print("Bölüm bilgileri bulunamadı.")
+
+if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description='Yardım Merkezi')
@@ -187,27 +209,4 @@ def main():
     args = parser.parse_args()
 
     app = GetAnimeApp(use_vlc=args.vlc)
-    query = input("Lütfen bir anime adı giriniz: ")
-    fetch_dt = fetch_data()
-    anime_data = fetch_dt.fetch_anime_data(query)
-
-    if not anime_data:
-        print("Sonuç bulunamadı.")
-        return
-    
-    selected_name, selected_id = app.select_anime(anime_data)
-
-    app.episodes = fetch_dt.fetch_anime_eps(selected_id=selected_id)
-    if app.episodes:
-        app.current_anime_name = selected_name
-        app.current_episode_index = 0           
-        
-        while True:
-            app.clear_screen()
-            option = app.display_menu()
-            app.handle_menu_option(option)
-    else:
-        print("Bölüm bilgileri bulunamadı.")
-
-if __name__ == "__main__":
-    main()  
+    app.main()  
