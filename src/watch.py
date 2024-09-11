@@ -14,9 +14,9 @@ class watch_anime:
                 raise ValueError("Url string olmalı.")
             
             if self.use_vlc:
-                subprocess.run(['vlc', '-v', url], check=True, capture_output=True, text=True)
+                subprocess.run(['vlc','--fullscreen','-v', url], check=True, capture_output=True, text=True)
             else:
-                subprocess.run(['mpv', url], check=True)
+                subprocess.run(['mpv','--fullscreen', url], check=True)
         except subprocess.CalledProcessError as e:
             print(f"Oynatılırken Hata Oluştu: {e}")
         except ValueError as e:
