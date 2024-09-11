@@ -7,6 +7,7 @@ import subprocess
 from fetch import fetch_data
 from watch import watch_anime
 
+
 class GetAnimeApp:
     def __init__(self, use_vlc=False):
         self.base_url = "https://www.mangacix.net/"
