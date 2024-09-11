@@ -55,7 +55,7 @@ aniwatch-tr -v # Opsyionel VLC Kullanımı
 ```
 **Nasıl Kaldırılır?**
 ```bash
-sudo rm -r /usr/local/bin/aniwatch-tr
+sudo rm /usr/local/bin/aniwatch-tr && sudo rm -rf ~/.aniwatch-tr
 ```
 
 <hr>
