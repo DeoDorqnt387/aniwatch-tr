@@ -28,22 +28,22 @@ class fetch_data:
                     if isinstance(seasons, list):
                         return list(range(len(seasons)))
                     else:
-                        print("Expected 'seasons' to be a list, but got:", type(seasons))
+                        print("'seasons'ın bir liste olması gerekliydi:", type(seasons))
                         return []
                 else:
-                    print("Key 'videos' or 'seasons' not found in the JSON response")
+                    print("'videos' ya da 'seasons' Verisi Bulunmamaktadır.")
                     return []
             except ValueError:
-                print("Invalid JSON response")
+                print("Hatalı json Verisi.")
                 return []
         else:
-            print(f"Request failed with status code: {response.status_code}")
+            print(f"İstek Hatası: {response.status_code}")
             return []
 
     def fetch_anime_eps(self, selected_id):
         index_of_seasons = self.fetch_anime_seasons(selected_id)
 
-        episodes = []
+        episodes = []                                   
         for index in index_of_seasons:
             data_url = f"https://www.mangacix.net/secure/related-videos?episode=1&season={index + 1}&titleId={selected_id}"
             response = requests.get(data_url)
