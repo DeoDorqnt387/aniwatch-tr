@@ -16,15 +16,15 @@ Bilgisayarınızda [**mpv**](https://github.com/mpv-player/mpv) programının ku
 
 **Arch:**
 ```bash
-sudo pacman -S mpv yt-dlp
+sudo pacman -S mpv
 ```
 **Ubuntu/Debian**
 ```bash
-sudo apt-get install mpv yt-dlp
+sudo apt-get install mpv
 ```
 **Fedora**
 ```bash
-sudo dnf install mpv yt-dlp
+sudo dnf install mpv
 ```
 
 > [!WARNING]  
