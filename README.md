@@ -2,6 +2,10 @@
 <strong> AniWatch-tr </strong>
 </h1>
 
+<h4 align="center">
+türkçe | <a href="">english</a>
+</h4>
+
 <h3 align="center">
     Terminalden Türkçe anime izleme, indirme.
 </h3>
