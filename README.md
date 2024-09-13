@@ -3,7 +3,7 @@
 </h1>
 
 <h4 align="center">
-türkçe | <a href="">english</a>
+türkçe | <a href="https://github.com/DeoDorqnt387/aniwatch-tr/blob/main/eng.md">english</a>
 </h4>
 
 <h3 align="center">
