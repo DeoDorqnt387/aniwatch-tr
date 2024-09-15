@@ -3,14 +3,14 @@
 </h1>
 
 <h4 align="center">
-türkçe | <a href="https://github.com/DeoDorqnt387/aniwatch-tr/blob/main/eng.md">english</a>
+TÜRKÇE | <a href="https://github.com/DeoDorqnt387/aniwatch-tr/blob/main/eng.md">ENGLISH</a>
 </h4>
 
 <h3 align="center">
     Terminalden Türkçe anime izleme, indirme.
 </h3>
 
-[![Video Thumbnail](https://github.com/user-attachments/assets/44b9d628-f96c-4baf-aec1-28e9f2472621)](https://github.com/user-attachments/assets/44b9d628-f96c-4baf-aec1-28e9f2472621)
+[![Video Thumbnail](https://github.com/user-attachments/assets/e4a0d20f-52f7-49c8-bad3-2fab2dc438e4)](https://github.com/user-attachments/assets/e4a0d20f-52f7-49c8-bad3-2fab2dc438e4)
 
 <h1 align="center">
     <b>Ön Gereksinim</b>
@@ -56,6 +56,9 @@ aniwatch-tr
 ```
 ```bash
 aniwatch-tr -v # Opsyionel VLC Kullanımı
+```
+```bash
+aniwatch-tr -r (480p, 720p, 1080p) # Çözünürlük Seçimi Opsiyonel (Varsayılan En Yüksek Çözünürlük)
 ```
 **Nasıl Kaldırılır?**
 ```bash
