@@ -10,7 +10,7 @@ TÜRKÇE | <a href="https://github.com/DeoDorqnt387/aniwatch-tr/blob/main/eng.md
     Terminalden Türkçe anime izleme, indirme.
 </h3>
 
-[![Video Thumbnail](https://github.com/user-attachments/assets/e4a0d20f-52f7-49c8-bad3-2fab2dc438e4)](https://github.com/user-attachments/assets/e4a0d20f-52f7-49c8-bad3-2fab2dc438e4)
+[![Video Thumbnail](https://github.com/user-attachments/assets/311a0f45-91f9-44dc-827a-47a623876d86)](https://github.com/user-attachments/assets/311a0f45-91f9-44dc-827a-47a623876d86)
 
 <h1 align="center">
     <b>Ön Gereksinim</b>
