@@ -1,44 +1,113 @@
 #!/usr/bin/env python3
 import os
-import inquirer
-import requests
 import subprocess
+import time
+import re
 
-from fetch import fetch_data
-from watch import watch_anime
+from InquirerPy import inquirer, prompt
+from InquirerPy.base.control import Choice
 
+from fetch import FetchData
+from watch import WatchAnime
 
-class GetAnimeApp:
-    def __init__(self, use_vlc=False):
+class mAnime:
+    def __init__(self, use_vlc=False, resolution="1080p"):
         self.base_url = "https://www.mangacix.net/"
-        self.current_episode_index = None 
+        self.current_episode_index = None
+        self.selected_id = None
         self.episodes = []
+        self.ftch_dt = FetchData()
+        self.wtch_dt = WatchAnime(use_vlc=use_vlc)
         self.current_anime_name = ""
-        self.use_vlc = use_vlc
-        self.selected_name = ""
-        self.selected_url = ""
+        self.resolution = resolution
 
-    def select_option(self, choices, message):
-        questions = [
-            inquirer.List('selection',
-                        message=message,
-                        choices=choices,
-                        ),
-        ]
-        answers = inquirer.prompt(questions)
-        return answers["selection"]
+    def clear_screen(self):
+        """Terminal Ekranını Temizle"""
+        os.system('cls' if os.name == 'nt' else 'clear')
+    
+    def display_menu(self):
+        """Ana Menü Gösterimi"""
+        self.clear_screen() 
 
-    def select_anime(self, anime_data):
-        choices = [f"{item['name']} (ID: {item['id']})" for item in anime_data]
-        selected_choice = self.select_option(choices, "Bir anime seçin")
-        selected_name, selected_id = selected_choice.split(' (ID: ')
-        selected_id = selected_id.rstrip(')')
-        return selected_name, selected_id
-
-    def select_episode(self, episodes):
-        episode_choices = [episode['name'] for episode in episodes]
-        selected_name = self.select_option(episode_choices, "Bir bölüm seçin")
         
+        if self.current_anime_name and self.current_episode_index is not None and self.episodes:
+            questions = [
+                {
+                    "type": "list",
+                    "name": "selection",
+                    "message": 'Bir Seçenek Seçiniz',
+                    "choices":  ['Şu anki Bölümü Oynat','Sonraki Bölüm','Önceki Bölüm','Bölüm Seç','Bölüm İndir','Anime Ara','Çık'],
+                    "cycle": True,
+                    "border": True,
+                },
+            ]
+            menu_header = (f"\033[33mOynatılıyor\033[0m: {self.current_anime_name} (tr-altyazılı) | "
+                        f"1080p | {self.current_episode_index + 1}/{len(self.episodes)}"
+                        if self.current_anime_name else "")
+            
+            print(menu_header)
+
+            answers = prompt(questions)
+            selected_option = answers['selection']
+            return selected_option
+        else:
+            menu_header = (f"\033[33mOynatılıyor\033[0m: {self.current_anime_name} (tr-altyazılı) | "
+                f"1080p | {self.current_episode_index + 1}"
+                if self.current_anime_name else "")
+            
+        print(menu_header)
+        questions = [
+            {
+                "type": "list",
+                "name": "selection",
+                "message": 'Bir Seçenek Seçiniz',
+                "choices": ['Filmi İzle','Filmi İndir','Anime Ara', 'Çık'],
+                "cycle": True,
+                "border": True,
+            },
+        ]
+        answers = prompt(questions)
+        selected_option = answers['selection']
+        return selected_option
+
+    
+    def select_anime(self, anime_dt):
+        """Anime Seç"""
+        anime_choices = [f"{item['name']} (ID: {item['id']})" for item in anime_dt]
+        questions = [
+            {
+                "type": "fuzzy",
+                "name": "anime_selection",
+                "message": "Bir Bölüm Seçin.",
+                "choices": anime_choices,
+                "border": True,
+                "cycle": True,
+                "height": "%40",
+            }
+        ]
+        answers = prompt(questions)
+        selected_choice = answers["anime_selection"]
+        match = re.match(r'(.+) \(ID: (\d+)\)', selected_choice)
+        if match:
+            selected_name = match.group(1)
+            selected_id = match.group(2)
+        return selected_name, selected_id
+    
+    def select_episode(self, episodes):
+        """Bölüm Seç"""
+        episode_choices = [episode['name'] for episode in episodes]
+        ep_questions = [
+            {
+                "type": "fuzzy",
+                "name": "episode_selection",
+                "message": "Bir bölüm seçin:",
+                "choices": episode_choices,
+                "cycle": True,
+                "border": True,
+            }
+        ]
+        answers = prompt(ep_questions)
+        selected_name = answers['episode_selection']
         selected_episode = next(ep for ep in episodes if ep['name'] == selected_name)
         selected_url = selected_episode['url']
 
@@ -47,92 +116,81 @@ class GetAnimeApp:
 
         return selected_name, selected_url
 
-    def clear_screen(self):
-        os.system('cls' if os.name == 'nt' else 'clear')
-
-    def display_menu(self):
-        self.clear_screen() 
-        
-        menu_choices = [
-            'Şu anki Bölümü Oynat',
-            'Sonraki Bölüm',
-            'Önceki Bölüm',
-            'Bölüm Seç',
-            'Bölümü İndir',
-            'Anime Ara',
-            'Çık'
-        ]
-        
-        print(f"Oynatılıyor: {self.current_anime_name} (tr-altyazılı) | 1080p | {self.current_episode_index + 1}/{len(self.episodes)}" if self.current_anime_name else "")
-        option = self.select_option(menu_choices, "Bir seçenek giriniz")
-        return option
-
     def handle_menu_option(self, option):
-        if option == 'Şu anki Bölümü Oynat':
-            if self.current_episode_index is not None:
-                self.play_episode(self.current_episode_index)
-            else:
-                print("Henüz bir bölüm seçilmedi.")
-        elif option == 'Sonraki Bölüm':
-            self.next_episode()
-        elif option == 'Önceki Bölüm':
-            self.previous_episode()
-        elif option == 'Bölüm Seç':
-            self.select_and_play_episode()
-        elif option == 'Anime Ara':
-            self.search_anime()
-        elif option == 'Bölümü İndir':
-            self.download_episode()
-        elif option == 'Çık':
-            print("Çıkılıyor.")
-            exit()
+        """Menu Seçim"""
+        actions = {
+            'Şu anki Bölümü Oynat': self.play_current_episode,
+            'Sonraki Bölüm': self.next_episode,
+            'Önceki Bölüm': self.previous_episode,
+            'Bölüm Seç': self.select_ep,
+            'Anime Ara': self.srch_anime,
+            'Bölüm İndir': self.download_episodes,
+            'Çık': self.exit_app,
+
+            'Filmi İzle': self.play_current_episode,
+            'Filmi İndir': self.download_episodes,
+        }
+        if not isinstance(option, str):
+            print(f"Invalid option type: {type(option)}")
+            self.invalid_option()
+            return
+        action = actions.get(option, self.invalid_option)
+        action()
+
+    def play_current_episode(self, quality=None):
+        """Şu anki Bölümü Oynat"""
+        if self.current_episode_index is not None:
+            self.play_episode(self.current_episode_index, quality)
         else:
-            print("Geçersiz seçenek.")
+            print("Bölüm Seçilmedi!")
+            time.sleep(0.8)
 
     def next_episode(self):
-        if self.current_episode_index is not None and self.current_episode_index < len(self.episodes) - 1:
+        """Siradaki Bölüme Git"""
+        if self.current_episode_index is not None and self.current_episode_index < len(self.episodes) -1:
             self.current_episode_index += 1
-            #self.play_episode(self.current_episode_index)
         else:
-            print("Sonraki bölüm yok.")
-
+            print("Sonraki Bölüm Yok!")
+            time.sleep(0.8)
+    
     def previous_episode(self):
+        """Önceki Bölüme Git"""
         if self.current_episode_index is not None and self.current_episode_index > 0:
             self.current_episode_index -= 1
-            #self.play_episode(self.current_episode_index)
         else:
-            print("Önceki bölüm yok.")
+            print("Önceki Bölüm Yok!")
+            time.sleep(0.8)
 
-    def select_and_play_episode(self):
+    def select_ep(self):
+        """Bölüm Seç ve Oynat(?)"""
         selected_name, selected_url = self.select_episode(self.episodes)
         self.current_episode_index = next(i for i, ep in enumerate(self.episodes) if ep['name'] == selected_name)
-        #self.play_episode(self.current_episode_index)
-
-    def search_anime(self):
-        query = input("Lütfen bir anime adı giriniz: ")
-        fetch_dt = fetch_data()
-        anime_data = fetch_dt.fetch_anime_data(query)
-
-        if not anime_data:
-            print("Sonuç bulunamadı.")
+    
+    def srch_anime(self):
+        """Anime Arat"""
+        query = inquirer.text(message="Lütfen Bir Anime Adı Giriniz:").execute()
+        self.clear_screen()
+        anime_srch_dt = self.ftch_dt.fetch_anime_srch_dt(query)
+        if not anime_srch_dt:
+            print("Sonuç Bulunamadı")
             return
         
-        selected_name, selected_id = self.select_anime(anime_data)
-        self.episodes = fetch_dt.fetch_anime_eps(selected_id=selected_id)
-        if self.episodes:
-            self.current_anime_name = selected_name
-            self.current_episode_index = 0
-            while True:
-                self.clear_screen()
-                option = self.display_menu()
-                self.handle_menu_option(option)
-        else:
-            print("Bölüm bilgileri bulunamadı.")
+        selected_name, selected_id = self.select_anime(anime_srch_dt)
+        self.episodes = self.ftch_dt.fetch_anime_srch_eps(selected_id)
+        self.selected_id = selected_id 
+        
+        self.current_anime_name = selected_name
+        self.current_episode_index = 0
 
-    def download_episode(self): 
-        if self.current_episode_index is not None:
-            episode_name = self.episodes[self.current_episode_index]['name']
-            episode_url = self.episodes[self.current_episode_index]['url']
+        while True:
+            self.clear_screen()
+            option = self.display_menu()
+            self.handle_menu_option(option)
+
+    def download_episodes(self):
+        """İndirilecek Bölümleri Seç ve İndir"""
+        if self.episodes is None:
+            download_url = self.ftch_dt.fetch_anime_watch_api_url_movie(self.selected_id)
             anime_name = self.current_anime_name
 
             base_directory = 'Animeler'
@@ -143,70 +201,122 @@ class GetAnimeApp:
             if not os.path.exists(anime_directory):
                 os.makedirs(anime_directory)
 
-            watch_anime_instance = watch_anime(use_vlc=self.use_vlc)
-            urls = watch_anime_instance.fetch_anime_api_watch_url(episode_url)
+            if download_url:    
+                file_name = f"{anime_name}.mp4"
+                file_path = os.path.join(anime_directory, file_name)
+                try:
+                    print(f"{anime_name} İndiriliyor...")
+                    subprocess.run(['yt-dlp', '--external-downloader', 'aria2c', '--external-downloader-args', '-x 16 -s 16 -k 1M','--no-warnings', '-o', file_path,download_url], check=True)
+                except subprocess.CalledProcessError as e:
+                    print("İndirme Sırasında Bir Hata Oluştu!", e)
+            else:
+                print("Geçerli Bir İndirme Urlsi Bulunamadı!", anime_name)
+        else:
+            episode_choices = [Choice(name=episode['name'], value=episode) for episode in self.episodes]
+            ep_que=[{"type": "checkbox", "name": "episode_selection", "message": "İndirmek istediğiniz bölümleri seçin:", "choices": episode_choices, "cycle": True, "border": True}]
 
-            url_indices_to_try = [3, 2, 1, 0]
-            if not urls or not any(urls[i].get('url') for i in url_indices_to_try if i < len(urls)):
-                print("İndirme URL'si bulunamadı.")
+            answers = prompt(ep_que)
+            selected_episodes = answers["episode_selection"]
+
+            base_directory = 'Animeler'
+            if not os.path.exists(base_directory):
+                os.makedirs(base_directory)
+
+            for episode in selected_episodes:
+                episode_name = episode['name']
+                episode_url = episode['url']
+                anime_name = self.current_anime_name
+
+                anime_directory = os.path.join(base_directory, anime_name)
+                if not os.path.exists(anime_directory):
+                    os.makedirs(anime_directory)
+                
+                urls = self.ftch_dt.fetch_anime_watch_api_url(episode_url)
+
+                try_best_qua = [3,2,1,0]
+                if not urls or not any(urls[i].get('url') for i in try_best_qua if i < len(urls)):
+                    print(f"İndirme URL'si Bulunamadı!")
+                    return
+                
+                download_url = next((urls[index]['url'] for index in try_best_qua if index < len(urls) and urls[index].get('url')), None)
+                if download_url:    
+                    file_name = f"{episode_name}.mp4"
+                    file_path = os.path.join(anime_directory, file_name)
+                    try:
+                        print(f"{episode_name} İndiriliyor...")
+                        subprocess.run(['yt-dlp', '--external-downloader', 'aria2c', '--external-downloader-args', '-x 16 -s 16 -k 1M','--no-warnings', '-o', file_path,download_url], check=True)
+                    except subprocess.CalledProcessError as e:
+                        print("İndirme Sırasında Bir Hata Oluştu!", e)
+                else:
+                    print("Geçerli Bir İndirme Urlsi Bulunamadı!", episode_name)
+
+    def play_episode(self, index, quality=None):
+        """Spesifik bir Bölümü Oynat"""
+        if self.episodes and isinstance(self.episodes, list) and 0 <= index < len(self.episodes):
+            episode = self.episodes[index]
+            episode_url = episode.get('url')
+            if not episode_url:
+                print("Bölüm URL'si bulunamadı.")
                 return
 
-            download_url = None
-            for index in url_indices_to_try:
-                if index < len(urls) and urls[index].get('url'):
-                    download_url = urls[index]['url']
-                    break
+            urls = self.ftch_dt.fetch_anime_watch_api_url(episode_url)
+            if not urls:
+                print("URL'ler Bulunamadı.")
+                return
 
-            if download_url:
-                file_name = f"{episode_name}.mp4"   
-                file_path = os.path.join(anime_directory, file_name)
+            quality_map = {
+                1080: 2,
+                720: 1,
+                480: 0,
+            }
 
-                try:
-                    print(f"{episode_name} indiriliyor...")
-                    subprocess.run(['yt-dlp', '-o', file_path, download_url], check=True)
-                    print(f"Bölüm başarıyla indirildi: {file_path}")
-                except subprocess.CalledProcessError as e:
-                    print(f"İndirme sırasında bir hata oluştu: {e}")
+            if quality is None:
+                try_best_qua = [2, 1, 0]  # 1080p > 720p > 480p
             else:
-                print("Geçerli bir indirme URL'si bulunamadı.")
+                quality = abs(quality)
+                try_best_qua = [quality_map.get(quality, 2)]
+
+            play_url = None
+            for idx in try_best_qua:
+                if idx < len(urls):
+                    url = urls[idx].get('url')
+                    print(f"Kontrol edilen indeks {idx}: {url}")
+                    if url:
+                        play_url = url
+                        break
+
+            if play_url:
+                print(f"Şu anki Bölüm: {episode['name']}")
+                self.wtch_dt.open_with_video_player(play_url)
+            else:
+                print(f"Geçerli Bir Video URL'si Bulunamadı: {episode['name']}")
         else:
-            print("Geçerli bir bölüm seçilmedi.")
+            if hasattr(self, 'selected_id'):
+                url = self.ftch_dt.fetch_anime_watch_api_url_movie(selected_id=self.selected_id)
+                self.wtch_dt.open_with_video_player(url)
+            else:
+                print("Geçerli bir bölüm bulunamadı veya indeks geçersiz.")
 
-    def play_episode(self, index):
-        episode = self.episodes[index]
-        print(f"Oynatılan bölüm: {episode['name']}")
-        url = watch_anime(use_vlc=self.use_vlc).fetch_anime_api_watch_url(episode['url'])
-        watch_anime(use_vlc=self.use_vlc).anime_watch(url)
-
-    def main(self): 
-        query = input("Lütfen bir anime adı giriniz: ")
-        fetch_dt = fetch_data()
-        anime_data = fetch_dt.fetch_anime_data(query)
-
-        if not anime_data:
-            print("Sonuç bulunamadı.")
-            return
-        
-        selected_name, selected_id = self.select_anime(anime_data)
-
-        self.episodes = fetch_dt.fetch_anime_eps(selected_id=selected_id)
-        if self.episodes:
-            self.current_anime_name = selected_name
-            self.current_episode_index = 0           
             
-            while True:
-                self.clear_screen()     
-                option = self.display_menu()     
-                self.handle_menu_option(option)
-        else:
-            print("Bölüm bilgileri bulunamadı.")
+    def invalid_option(self):
+        """Geçersiz veri"""
+        print("Geçersiz bir seçenek girdiniz. Lütfen geçerli bir seçenek giriniz.")
+        time.sleep(1)
+
+    def exit_app(self):
+        """Çık"""
+        print("Çıkış yapılıyor...")
+        time.sleep(0.6)
+        exit()  
 
 if __name__ == "__main__":
     import argparse
-
-    parser = argparse.ArgumentParser(description='Yardım Merkezi')
-    parser.add_argument('-v', '--vlc', action='store_true', help='VLC kullanarak oynat')
+    parser = argparse.ArgumentParser(description="Anime oynatıcı.")
+    parser.add_argument("-v", "--vlc", action="store_true", help="VLC ile video oynat")
+    parser.add_argument("-r", "--resolution", type=str, choices=["1080p", "720p", "480p"], default="1080p", help="Oynatma çözünürlüğü")
     args = parser.parse_args()
 
-    app = GetAnimeApp(use_vlc=args.vlc)
-    app.main()  
+    use_vlc = args.vlc
+    resolution = args.resolution
+    app = mAnime(use_vlc=use_vlc)
+    app.srch_anime()
