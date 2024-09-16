@@ -20,15 +20,15 @@ Make sure you have the [**mpv**](https://github.com/mpv-player/mpv) program inst
 
 **Arch:**
 ```bash
-sudo pacman -S mpv
+sudo pacman -S mpv yt-dlp
 ```
 **Ubuntu/Debian**
 ```bash
-sudo apt-get install mpv
+sudo apt-get install mpv yt-dlp
 ```
 **Fedora**
 ```bash
-sudo dnf install mpv
+sudo dnf install mpv yt-dlp
 ```
 **OpenSUSE**
 ```bash
