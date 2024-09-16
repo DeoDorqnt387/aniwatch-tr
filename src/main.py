@@ -78,7 +78,7 @@ class mAnime:
             {
                 "type": "fuzzy",
                 "name": "anime_selection",
-                "message": "Bir Bölüm Seçin.",
+                "message": "Bir Anime Seçin.",
                 "choices": anime_choices,
                 "border": True,
                 "cycle": True,
@@ -100,7 +100,7 @@ class mAnime:
             {
                 "type": "fuzzy",
                 "name": "episode_selection",
-                "message": "Bir bölüm seçin:",
+                "message": "Bir Bölüm seçin:",
                 "choices": episode_choices,
                 "cycle": True,
                 "border": True,
@@ -307,9 +307,9 @@ class mAnime:
         """Çık"""
         print("Çıkış yapılıyor...")
         time.sleep(0.6)
-        exit()  
+        exit()
 
-if __name__ == "__main__":
+def main():
     import argparse
     parser = argparse.ArgumentParser(description="Anime oynatıcı.")
     parser.add_argument("-v", "--vlc", action="store_true", help="VLC ile video oynat")
@@ -320,3 +320,6 @@ if __name__ == "__main__":
     resolution = args.resolution
     app = mAnime(use_vlc=use_vlc)
     app.srch_anime()
+
+if __name__ == "__main__":
+    main()
