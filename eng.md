@@ -3,14 +3,14 @@
 </h1>
 
 <h4 align="center">
-english | <a href="https://github.com/DeoDorqnt387/aniwatch-tr">türkçe</a>
+ENGLISH | <a href="https://github.com/DeoDorqnt387/aniwatch-tr">TÜRKÇE</a>
 </h4>
 
 <h3 align="center">
 Stream and Download Turkish Anime From the Terminal.
 </h3>
 
-[![Video Thumbnail](https://github.com/user-attachments/assets/44b9d628-f96c-4baf-aec1-28e9f2472621)](https://github.com/user-attachments/assets/44b9d628-f96c-4baf-aec1-28e9f2472621)
+[![Video Thumbnail](https://github.com/user-attachments/assets/311a0f45-91f9-44dc-827a-47a623876d86)](https://github.com/user-attachments/assets/311a0f45-91f9-44dc-827a-47a623876d86)
 
 <h1 align="center">
     <b>Prerequisite</b>
@@ -29,6 +29,10 @@ sudo apt-get install mpv
 **Fedora**
 ```bash
 sudo dnf install mpv
+```
+**OpenSUSE**
+```bash
+sudo zypper install mpv yt-dlp
 ```
 
 > [!WARNING]
@@ -55,7 +59,10 @@ sudo cp ~/.aniwatch-tr/aniwatch-tr /usr/local/bin/aniwatch-tr
 aniwatch-tr
 ```
 ```bash
-aniwatch-tr -v # Opsyionel VLC Kullanımı
+aniwatch-tr -v # Optional Vlc Usage
+```
+```bash
+aniwatch-tr -r (480p, 720p, 1080p) # Resolution Selection Optional (Default Highest Resolution)
 ```
 **How to Remove??**
 ```bash
