@@ -1,2 +1,4 @@
-requests
-inquirer
+requests 
+inquirerpy 
+aria2 
+yt-dlp
