@@ -30,6 +30,10 @@ sudo apt-get install mpv yt-dlp
 ```bash
 sudo dnf install mpv yt-dlp
 ```
+**OpenSUSE**
+```bash
+sudo zypper install mpv yt-dlp
+```
 
 > [!WARNING]  
 > Windows'ta [MPV](https://github.com/shinchiro/mpv-winbuild-cmake/releases) uygulamasını Path'e Eklemeniz Gerekmekte.
