@@ -1,5 +1,5 @@
 """BELKİ BİR GÜN"""
-import subprocess, os, time, re, aria2c
+import subprocess, os, time, re
 
 from InquirerPy import inquirer, prompt
 from InquirerPy.base.control import Choice
