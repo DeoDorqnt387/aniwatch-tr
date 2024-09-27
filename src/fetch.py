@@ -3,7 +3,7 @@ import time
 
 from urllib.parse import urlparse, parse_qs
 
-class FetchData:
+class FetchData_a:
     def __init__(self):
         self.base_url = "https://www.mangacix.net/"
         self.video_players = ["tau-video.xyz", "sibnet"]
@@ -27,6 +27,12 @@ class FetchData:
         json_data = self._get_json(url)
 
         videos = json_data.get("videos", [])
+
+        print(f"Sezon Sayısı Belirleniyor...")
+        time.sleep(0.5)
+        print(f"malID Çıkarılıyor...")
+        time.sleep(0.5)
+        print(f"Veri Tipi Alınıyor...")
 
         if videos and isinstance(videos, list) and len(videos) > 0:
             seasons = videos[0].get('title', {}).get('seasons', [])
@@ -90,6 +96,7 @@ class FetchData:
 
     def fetch_anime_watch_api_url_movie(self,selected_id):
         """İzleme Urlsini Al (Movie)"""
+        """YAZACAĞIM KODU SEVİM AMK BU NE"""
         url = f"https://animecix.net/secure/titles/{selected_id}"
         json_dt = self._get_json(url)
         url_vid = json_dt.get("title", {}).get("videos", [{}])[0].get("url")
@@ -118,3 +125,88 @@ class FetchData:
                     
                 return selected_url
         return None
+
+class FetchData_b:
+    def __init__(self):
+        self.player="https://tp1---av-u0g3jyaa-8gcu.oceanicecdn.xyz"
+        self.base_url = "https://api.openani.me"
+        self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
+
+
+    def fetch_anime_srch_data(self, yr_rsp):
+        """Arama Verisi"""
+        search_url = f"{self.base_url}/anime/search?q={yr_rsp}"
+        resp = requests.get(search_url, headers=self.headers)
+        resp.raise_for_status()
+        
+        data = resp.json()
+        return [{'name': anime.get('english'), 'slug': anime.get('slug')} for anime in data]
+
+    def fetch_anime_seasons_data(self, slug):
+        """Anime Sezon Verisini Al"""
+        url = f"{self.base_url}/anime/{slug}"
+        resp = requests.get(url, headers=self.headers)
+        resp.raise_for_status()
+        
+        data = resp.json()
+        seasons_count = data["numberOfSeasons"]
+        malID = data["malID"]
+        type = data["type"]
+
+        print(f"Sezon Sayısı Belirleniyor...")
+        time.sleep(0.5)
+        print(f"malID Çıkarılıyor...")
+        time.sleep(0.5)
+        print(f"Veri Tipi Alınıyor...")
+
+        return seasons_count, slug, malID
+
+    def fetch_anime_seasons_episodes(self, slug):
+        """Anime Sezon, Bölüm, Ad Verisini Al"""
+        season_count, slug, malID = self.fetch_anime_seasons_data(slug)
+        if not season_count:
+            print("Sezon bulunamadı.")
+            return []
+
+        all_episodes = []
+        season_numbers = []
+
+        for season in range(1, season_count + 1):
+            url = f"{self.base_url}/anime/{slug}/season/{season}"
+            resp = requests.get(url, headers=self.headers)
+            resp.raise_for_status()
+
+            data = resp.json()
+            episodes = data["season"]["episodes"]
+            season_number = data["season"]["season_number"]
+
+            print(f"Total Episodes in Season {season}: {len(episodes)}")
+
+            all_episodes.extend(episodes)
+            season_numbers.extend([season_number] * len(episodes))
+
+        episode_list = [
+            (episode.get("name"), episode.get("episodeNumber"), season_number)
+            for episode, season_number in zip(all_episodes, season_numbers)
+        ]
+
+        sorted_episodes = sorted(episode_list, key=lambda ep: (ep[2], ep[1]))
+
+        return sorted_episodes
+    
+    def fetch_anime_episode_watch_api_url(self, slug, sel_ep, sel_seas):
+        """Anime Bölüm Urlsini Al"""
+        if not slug:
+            return
+
+        url = f"{self.base_url}/anime/{slug}/season/{sel_seas}/episode/{sel_ep}"
+        resp = requests.get(url, headers=self.headers)
+        resp.raise_for_status()
+        
+        data = resp.json()
+        for index in [3, 2, 1, 0]:
+            try:
+                file = data["episodeData"]["files"][index]["file"]
+                return file
+            except (IndexError, KeyError):
+                continue
