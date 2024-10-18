@@ -44,7 +44,7 @@ sudo zypper install mpv yt-dlp
 
 **PIP**
 ```bash
-pip install aniwatch-tr
+pip install aniwatch-tr #v0.3.8
 ```
 
 **Manual Kurulum**
