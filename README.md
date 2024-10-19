@@ -18,7 +18,7 @@ TÜRKÇE | <a href="https://github.com/DeoDorqnt387/aniwatch-tr/blob/main/eng.md
 
 Bilgisayarınızda [**mpv**](https://github.com/mpv-player/mpv) programının kurulu olduğundan emin olun. Eğer kurulu değilse, aşağıdaki adımları izleyerek kurabilirsiniz:
 
-**Arch:**
+**Arch/Arch-Based:**
 ```bash
 sudo pacman -S mpv yt-dlp
 ```
