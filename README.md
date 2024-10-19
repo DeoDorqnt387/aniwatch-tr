@@ -34,9 +34,14 @@ sudo dnf install mpv yt-dlp
 ```bash
 sudo zypper install mpv yt-dlp
 ```
+**Windows**
+ [Scoop ile kurulum](https://adamtheautomator.com/scoop-windows/):
+```bash
+scoop install mpv
+```
+**Windows Manual Kurulum**:
 
-> [!WARNING]  
-> Windows'ta [MPV](https://github.com/shinchiro/mpv-winbuild-cmake/releases) uygulamasını Path'e Eklemeniz Gerekmekte.
+[MPV](https://github.com/shinchiro/mpv-winbuild-cmake/releases) Uygulamasını Path'e ekleyin.
 
 <h1 align="center">
     <b>Kurulum</b>
