@@ -5,9 +5,9 @@ from urllib.parse import urlparse, parse_qs
 
 class FetchData_a:
     def __init__(self):
-        self.base_url = "https://www.mangacix.net/"
+        self.base_url = "https://animecix.net/"
         self.video_players = ["tau-video.xyz", "sibnet"]
-        self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
+        self.headers = {'Accept': 'application/json','User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
 
     def _get_json(self, url):
         """Jon Verisini Al"""
@@ -17,7 +17,8 @@ class FetchData_a:
 
     def fetch_anime_srch_dt(self, query):
         """Arama Verisi"""
-        search_url = f"{self.base_url}secure/search/{query}?limit=20"
+        #https://animecix.net/secure/search/date%20a%20l?type=&limit=8
+        search_url = f"{self.base_url}/secure/search/{query}?type=&limit=20"
         data = self._get_json(search_url)
         return [{'name': item.get('name'), 'id': item.get('id'), 'type': item.get('type')} for item in data.get('results', [])]
 
