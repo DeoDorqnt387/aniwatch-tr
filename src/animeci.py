@@ -10,7 +10,7 @@ from openani import Openani
 
 class animecix:
     def __init__(self, use_vlc=False, resolution="1080p"):
-        self.base_url = "https://www.mangacix.net/"
+        self.base_url = "https://www.animecix.net/"
         self.current_episode_index = None
         self.selected_id = None
         self.episodes = []
