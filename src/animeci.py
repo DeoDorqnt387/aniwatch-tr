@@ -1,11 +1,11 @@
-"""BELKİ BİR GÜN"""
 import os, subprocess, time, re
 
 from InquirerPy import inquirer, prompt
 from InquirerPy.base.control import Choice
 
+## My Imports ##
 from fetch import FetchData_a
-from watch import WatchAnime
+from watch import *
 from openani import Openani
 
 class animecix:
@@ -14,8 +14,8 @@ class animecix:
         self.current_episode_index = None
         self.selected_id = None
         self.episodes = []
+        self.use_vlc = use_vlc
         self.ftch_dt_a = FetchData_a()
-        self.wtch_dt = WatchAnime(use_vlc=use_vlc)
         self.selected_website = ""
         self.current_anime_name = ""
         self.resolution = resolution
@@ -26,6 +26,7 @@ class animecix:
     
     def display_website_selection_thing(self):
         """Website Seçim Penceresi"""
+        self.clear_screen()
         choices= ["AnimeciX (ID: 856)", "Openani.me (ID: 525)"]
         l = [
             {
@@ -174,7 +175,7 @@ class animecix:
         """Anime Arat"""
         query = inquirer.text(message="Lütfen Bir Anime Adı Giriniz:").execute()
         self.clear_screen()
-        anime_srch_dt = self.ftch_dt_a.fetch_anime_srch_dt(query)
+        anime_srch_dt = self.ftch_dt_a.fetch_anime_search_data(query)
         if not anime_srch_dt:
             print("Sonuç Bulunamadı")
             return
@@ -198,7 +199,7 @@ class animecix:
             selected_name = match.group(1)
             selected_id = match.group(2)
 
-        self.episodes = self.ftch_dt_a.fetch_anime_srch_eps(selected_id)
+        self.episodes = self.ftch_dt_a.fetch_anime_episodes(selected_id)
         self.selected_id = selected_id 
         
         self.current_anime_name = selected_name
@@ -277,7 +278,7 @@ class animecix:
         if not (self.episodes and isinstance(self.episodes, list) and 0 <= index < len(self.episodes)):
             if hasattr(self, 'selected_id'):
                 url = self.ftch_dt_a.fetch_anime_watch_api_url_movie(selected_id=self.selected_id)
-                self.wtch_dt.open_with_video_player(url)
+                open_with_video_player(url)
             else:
                 print("Geçerli bir bölüm bulunamadı veya indeks geçersiz.")
             return
@@ -300,7 +301,7 @@ class animecix:
 
         if play_url:
             print(f"Şu anki Bölüm: {episode['name']}")
-            self.wtch_dt.open_with_video_player(play_url)
+            open_with_video_player(play_url)
         else:
             print(f"Geçerli Bir Video URL'si Bulunamadı: {episode['name']}")
 
