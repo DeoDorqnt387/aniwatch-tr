@@ -1,16 +1,15 @@
-"""BELKİ BİR GÜN"""
-import subprocess, os, time, re
+import subprocess, os, time
 
 from InquirerPy import inquirer, prompt
 from InquirerPy.base.control import Choice
 
+## My Imports ##
 from fetch import FetchData_b
-from watch import WatchAnime
+from watch import *
 
 class Openani:
     def __init__(self):
         self.ftch_dt_b = FetchData_b()
-        self.watch = WatchAnime()
         self.episodes = []
         self.player = "https://tp1---av-u0g3jyaa-8gcu.oceanicecdn.xyz"
         self.slug = ""
@@ -115,7 +114,7 @@ class Openani:
     def srch_anime(self):
         """Anime Arat"""
         query = inquirer.text(message="Lütfen Bir Anime Adı Giriniz: ").execute()
-        results = self.ftch_dt_b.fetch_anime_srch_data(query)
+        results = self.ftch_dt_b.fetch_anime_search_data(query)
 
         selected_name = prompt([{
             "type": "fuzzy",
@@ -129,7 +128,7 @@ class Openani:
 
         self.slug = next(anime["slug"] for anime in results if anime["name"] == selected_name)
         self.current_anime_name, self.current_episode_index = selected_name, 0
-        self.episodes = self.ftch_dt_b.fetch_anime_seasons_episodes(self.slug)
+        self.episodes = self.ftch_dt_b.fetch_anime_season_episodes(self.slug)
 
         while True:
             self.clear_screen()
@@ -191,7 +190,7 @@ class Openani:
         results = self.ftch_dt_b.fetch_anime_episode_watch_api_url(self.slug, sel_ep=episode_number,sel_seas=season_number)
         print("Veri Çıkarılıyor...") 
 
-        self.watch.open_with_video_player(f"{self.player}/animes/{self.slug}/{season_number}/{results}")
+        open_with_video_player(f"{self.player}/animes/{self.slug}/{season_number}/{results}")
 
         
 
