@@ -34,6 +34,8 @@ sudo dnf install mpv yt-dlp
 ```bash
 sudo zypper install mpv yt-dlp
 ```
+<hr>
+
 **Windows**
  [Scoop ile kurulum](https://adamtheautomator.com/scoop-windows/):
 ```bash
