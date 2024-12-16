@@ -65,12 +65,6 @@ sudo cp ~/.aniwatch-tr/aniwatch-tr /usr/local/bin/aniwatch-tr
 ```bash
 aniwatch-tr
 ```
-```bash
-aniwatch-tr -v # Opsyionel VLC Kullanımı
-```
-```bash
-aniwatch-tr -r (480p, 720p, 1080p) # Çözünürlük Seçimi Opsiyonel (Varsayılan En Yüksek Çözünürlük)
-```
 **Nasıl Kaldırılır?**
 ```bash
 sudo rm /usr/local/bin/aniwatch-tr && sudo rm -rf ~/.aniwatch-tr
