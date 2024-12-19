@@ -87,7 +87,7 @@ class FetchData_a:
 
     def fetch_anime_watch_api_url_movie(self, selected_id):
         """Fetch watch URL for a movie based on its ID."""
-        url = f"https://animecix.net/secure/titles/{selected_id}"
+        url = f"https://mangacix.net/secure/titles/{selected_id}"
         json_dt = self._get_json(url)
         if json_dt:
             url_vid = json_dt.get("title", {}).get("videos", [{}])[0].get("url")
