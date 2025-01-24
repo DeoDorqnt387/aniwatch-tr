@@ -1,92 +1,173 @@
-import os, subprocess, time, re
+import os, time, re, requests
+import subprocess
+import tools
 
+from urllib.parse import urlparse, parse_qs
 from InquirerPy import inquirer, prompt
 from InquirerPy.base.control import Choice
 
-## My Imports ##
-from fetch import FetchData_a
 from watch import *
-from openani import Openani
+
+class anifetch:
+    def __init__(self):
+        # WEBSITE: https://animecix.net/
+        self.base_url = "https://animecix.net/"
+        self.video_players = ["tau-video.xyz", "sibnet"]
+        self.headers = {
+            'Accept': 'application/json',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
+
+    def _get_json(self, url):
+        """Fetch JSON data from the specified URL."""
+        try:
+            response = requests.get(url, headers=self.headers)
+            response.raise_for_status()
+            return response.json()
+        except requests.RequestException as e:
+            print(f"Error fetching JSON from {url}: {e}")
+            return None
+
+    def fetch_anime_search_data(self, query):
+        """Fetch anime search data based on the query."""
+        try:
+            search_url = f"{self.base_url}secure/search/{query}?type=&limit=20"
+            data = self._get_json(search_url)
+            if data and 'results' in data:
+                return [
+                    {'name': item.get('name'), 
+                    'id': item.get('id'), 
+                    'type': item.get('type'), 
+                    'title_type': item.get("title_type"), 
+                    'original_title': item.get("original_title")}
+                    for item in data['results']
+                ]
+        except Exception as e:
+            print(f"Error fetching anime search data: {e}")
+        return []
+
+    def fetch_anime_seasons(self, selected_id):
+        """Fetch seasonal data for the specified anime ID."""
+        url = f"https://mangacix.net/secure/related-videos?episode=1&season=1&titleId={selected_id}"
+        json_data = self._get_json(url)
+
+        if json_data and "videos" in json_data:
+            videos = json_data["videos"]
+            if videos:
+                seasons = videos[0].get('title', {}).get('seasons', [])
+                if isinstance(seasons, list):
+                    return list(range(len(seasons)))
+        return []
+
+    def fetch_anime_episodes(self, selected_id):
+        """Fetch episode data for the specified anime ID."""
+        seasons = self.fetch_anime_seasons(selected_id)
+        episodes = []
+        seen_episode_names = set()
+
+        for season_index in seasons:
+            srch_eps_data_url = f"https://mangacix.net/secure/related-videos?episode=1&season={season_index + 1}&titleId={selected_id}"
+            data = self._get_json(srch_eps_data_url)
+            if data and 'videos' in data:
+                for item in data['videos']:
+                    episode_name = item.get('name', "No url field")
+                    if episode_name not in seen_episode_names:
+                        episode_url = item.get('url', 'No name field')
+                        episodes.append({'name': episode_name, 'url': episode_url})
+                        seen_episode_names.add(episode_name)
+        return episodes
+
+    def fetch_anime_watch_api_url(self, url):
+        """Fetch the watch URL for a given anime URL."""
+        wtch_url = f"{self.base_url}{url}"
+        try:
+            response = requests.get(wtch_url, headers=self.headers, allow_redirects=True)
+            response.raise_for_status()
+
+            time.sleep(3)  # Avoid being flagged as a bot
+
+            final_resp = response.url
+            path = urlparse(final_resp).path
+            embed_id = path.split('/')[2]
+            query = urlparse(final_resp).query
+            vid = parse_qs(query).get('vid', [None])[0]
+
+            watch_url = f"https://{self.video_players[0]}/api/video/{embed_id}?vid={vid}"
+            wtch_resp = requests.get(watch_url)
+            wtch_resp.raise_for_status()
+
+            urls = [{'url': item.get('url', 'No URL field')} for item in wtch_resp.json().get('urls', [])]
+            return urls
+        except requests.RequestException as e:
+            print("Error occurred while fetching watch API URL:", e)
+            return []
+
+    def fetch_anime_watch_api_url_movie(self, selected_id):
+        """Fetch watch URL for a movie based on its ID."""
+        url = f"https://mangacix.net/secure/titles/{selected_id}"
+        json_dt = self._get_json(url)
+        
+        if not json_dt:
+            print(f"Error: Unable to fetch JSON data from {url}")
+            return None
+        
+        url_vid = json_dt.get("title", {}).get("videos", [{}])[0].get("url")
+        
+        if not url_vid:
+            print(f"Error: No video URL found in JSON data from {url}")
+            return None
+        
+        try:
+            path = urlparse(url_vid).path
+            embed_id = path.split("/")[2]
+            api_url = f"https://{self.video_players[0]}/api/video/{embed_id}"
+            video_data = self._get_json(api_url)
+            
+            if not video_data:
+                print(f"Error: Unable to fetch JSON data from {api_url}")
+                return None
+            
+            best_qualities = ["1080p", "720p", "480p"]
+            for quality in best_qualities:
+                for url_info in video_data.get('urls', []):
+                    if url_info.get("label") == quality:
+                        return url_info.get("url")
+        except Exception as e:
+            print(f"Error while fetching movie URL: {e}")
+            if self.video_players[1] in url_vid:
+                return url_vid + ".mp4"
+        
+        return None
 
 class animecix:
-    def __init__(self, use_vlc=False, resolution="1080p"):
+    def __init__(self):
         self.base_url = "https://www.animecix.net/"
         self.current_episode_index = None
         self.selected_id = None
         self.episodes = []
-        self.use_vlc = use_vlc
-        self.ftch_dt_a = FetchData_a()
+        self.ftch_dt_a = anifetch()
         self.selected_website = ""
         self.current_anime_name = ""
-        self.resolution = resolution
-
-    def clear_screen(self):
-        """Terminal Ekranını Temizle"""
-        os.system('cls' if os.name == 'nt' else 'clear')
-    
-    def display_website_selection_thing(self):
-        """Website Seçim Penceresi"""
-        self.clear_screen()
-        choices= ["AnimeciX (ID: 856)", "Openani.me (ID: 525)"]
-        l = [
-            {
-                "type":"list",
-                "name":"website_selection",
-                "message": "Bir Website Seçin.",
-                "choices": choices,
-                "border": True,
-                "cycle":True,
-            }
-        ]
-        l = prompt(l)
-        selected_choices = l["website_selection"]
-        print(selected_choices)
-        return selected_choices
-
-    def play_current_episode(self, quality=None):
-        """Şu anki Bölümü Oynat"""
-        if self.current_episode_index is not None:
-            self.play_episode(self.current_episode_index, quality)
-        else:
-            print("Bölüm Seçilmedi!")
-            time.sleep(0.8)
-
-    def next_episode(self):
-        """Siradaki Bölüme Git"""
-        if self.current_episode_index is not None and self.current_episode_index < len(self.episodes) -1:
-            self.current_episode_index += 1
-        else:
-            print("Sonraki Bölüm Yok!")
-            time.sleep(0.8)
-    
-    def previous_episode(self):
-        """Önceki Bölüme Git"""
-        if self.current_episode_index is not None and self.current_episode_index > 0:
-            self.current_episode_index -= 1
-        else:
-            print("Önceki Bölüm Yok!")
-            time.sleep(0.8)
-
-    def select_ep(self):
-        """Bölüm Seç ve Oynat(?)"""
-        selected_name, selected_url = self.select_episode(self.episodes)
-        self.current_episode_index = next(i for i, ep in enumerate(self.episodes) if ep['name'] == selected_name)
-            
-    def invalid_option(self):
-        """Geçersiz veri"""
-        print("Geçersiz bir seçenek girdiniz. Lütfen geçerli bir seçenek giriniz.")
-        time.sleep(1)
-
-    def exit_app(self):
-        """Çık"""
-        print("Çıkış yapılıyor...")
-        time.sleep(0.6)
-        exit()
 
     def display_menu(self):
         """Ana Menü Gösterimi"""
-        self.clear_screen() 
-        if self.current_anime_name and self.current_episode_index is not None and self.episodes:
+        tools.clear_screen() 
+        is_movie = (
+            self.episodes is None or 
+            len(self.episodes) <= 1 or 
+            (isinstance(self.episodes, dict) and self.episodes.get("title_type") == "movie")
+        )
+        
+        total_episodes = (
+            len(self.episodes) if isinstance(self.episodes, list) else 1
+        )
+
+        if not is_movie:
+            menu_header = (f"\033[33mOynatılıyor\033[0m: {self.current_anime_name} (tr-altyazılı) | "
+            f"Olabilecek en yüksek kalite | {self.current_episode_index + 1}/{total_episodes}"
+            if self.current_anime_name else "")
+            print(menu_header)
+
             questions = [
                 {
                     "type": "list",
@@ -97,21 +178,12 @@ class animecix:
                     "border": True,
                 },
             ]
-            menu_header = (f"\033[33mOynatılıyor\033[0m: {self.current_anime_name} (tr-altyazılı) | "
-                        f"1080p | {self.current_episode_index + 1}/{len(self.episodes)}"
-                        if self.current_anime_name else "")
-            
-            print(menu_header)
-
-            answers = prompt(questions)
-            selected_option = answers['selection']
-            return selected_option
         else:
             menu_header = (f"\033[33mOynatılıyor\033[0m: {self.current_anime_name} (tr-altyazılı) | "
-                f"1080p | {self.current_episode_index + 1}"
-                if self.current_anime_name else "")
-        
+            f"Olabilecek en yüksek kalite | {self.current_episode_index + 1}"
+            if self.current_anime_name else "")
             print(menu_header)
+
             questions = [
                 {
                     "type": "list",
@@ -122,9 +194,10 @@ class animecix:
                     "border": True,
                 },
             ]
-            answers = prompt(questions)
-            selected_option = answers['selection']
-            return selected_option
+        
+        answers = prompt(questions)
+        selected_option = answers['selection']
+        return selected_option
 
 
     def select_episode(self, episodes):
@@ -153,34 +226,34 @@ class animecix:
     def handle_menu_option(self, option):
         """Menu Seçim"""
         actions = {
-            'Şu anki Bölümü Oynat': self.play_current_episode,
-            'Sonraki Bölüm': self.next_episode,
-            'Önceki Bölüm': self.previous_episode,
-            'Bölüm Seç': self.select_ep,
+            'Şu anki Bölümü Oynat': lambda: tools.play_current_episode(self),
+            'Sonraki Bölüm': lambda: tools.next_episode(self),
+            'Önceki Bölüm': lambda: tools.previous_episode(self),
+            'Bölüm Seç': lambda: tools.select_ep(self),
             'Anime Ara': self.srch_anime,
             'Bölüm İndir': self.download_episodes,
-            'Çık': self.exit_app,
+            'Çık': tools.exit_app,
 
-            'Filmi İzle': self.play_current_episode,
+            'Filmi İzle': lambda: tools.play_current_episode(self),
             'Filmi İndir': self.download_episodes,
         }
         if not isinstance(option, str):
             print(f"Invalid option type: {type(option)}")
-            self.invalid_option()
+            tools.invalid_option()
             return
-        action = actions.get(option, self.invalid_option)
+        action = actions.get(option, tools.invalid_option)
         action()
 
     def srch_anime(self):
         """Anime Arat"""
         query = inquirer.text(message="Lütfen Bir Anime Adı Giriniz:").execute()
-        self.clear_screen()
+        tools.clear_screen()
         anime_srch_dt = self.ftch_dt_a.fetch_anime_search_data(query)
         if not anime_srch_dt:
             print("Sonuç Bulunamadı")
             return
         
-        anime_choices = [f"{item['name']} (ID: {item['id']})" for item in anime_srch_dt]
+        anime_choices = [f"{item['name']} [{item['original_title']}] (ID: {item['id']})" for item in anime_srch_dt]
         questions = [
             {
                 "type": "fuzzy",
@@ -200,13 +273,13 @@ class animecix:
             selected_id = match.group(2)
 
         self.episodes = self.ftch_dt_a.fetch_anime_episodes(selected_id)
-        self.selected_id = selected_id 
+        self.selected_id = selected_id
         
         self.current_anime_name = selected_name
         self.current_episode_index = 0
 
         while True:
-            self.clear_screen()
+            tools.clear_screen()
             option = self.display_menu()
             self.handle_menu_option(option)
             
@@ -273,7 +346,7 @@ class animecix:
                 else:
                     print("Geçerli Bir İndirme Urlsi Bulunamadı!", episode_name)
 
-    def play_episode(self, index, quality=None):
+    def play_episode(self, index):
         """Spesifik bir Bölümü Oynat"""
         if not (self.episodes and isinstance(self.episodes, list) and 0 <= index < len(self.episodes)):
             if hasattr(self, 'selected_id'):
@@ -294,9 +367,8 @@ class animecix:
             print("URL'ler Bulunamadı.")
             return
 
-        quality_map = {1080: 2, 720: 1, 480: 0}
-        try_best_qua = [quality_map.get(abs(quality), 2)] if quality else [2, 1, 0]
-
+        try_best_qua = [2, 1, 0]
+        
         play_url = next((urls[idx].get('url') for idx in try_best_qua if idx < len(urls)), None)
 
         if play_url:
@@ -305,19 +377,3 @@ class animecix:
         else:
             print(f"Geçerli Bir Video URL'si Bulunamadı: {episode['name']}")
 
-def main():
-    import argparse
-    parser = argparse.ArgumentParser(description="Anime oynatıcı.")
-    parser.add_argument("-v", "--vlc", action="store_true", help="VLC ile video oynat")
-    parser.add_argument("-r", "--resolution", type=str, choices=["1080p", "720p", "480p"], default="1080p", help="Oynatma çözünürlüğü")
-    args = parser.parse_args()
-
-    use_vlc = args.vlc
-    resolution = args.resolution
-    app = animecix(use_vlc=use_vlc)
-    openani = Openani()
-    selection = app.display_website_selection_thing()
-    if selection == "AnimeciX (ID: 856)":
-        app.srch_anime()
-    else:
-        openani.srch_anime()
