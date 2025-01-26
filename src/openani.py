@@ -16,7 +16,7 @@ class FetchData_b:
     def fetch_anime_search_data(self, query):
         """Fetch anime search data based on the query."""
         search_url = f"{self.base_url}/anime/search?q={query}"
-        data = self._get_json(search_url)
+        data = self.get_json(search_url)
         if data:
             return [{'name': anime.get('english'), 'slug': anime.get('slug')} for anime in data]
         return []
@@ -24,7 +24,7 @@ class FetchData_b:
     def fetch_anime_seasons_data(self, slug):
         """Fetch anime season data based on the slug."""
         url = f"{self.base_url}/anime/{slug}"
-        data = self._get_json(url)
+        data = self.get_json(url)
         if data:
             seasons_count = data.get("numberOfSeasons", 0)
             malID = data.get("malID")
@@ -45,7 +45,7 @@ class FetchData_b:
 
         for season in range(1, season_count + 1):
             url = f"{self.base_url}/anime/{slug}/season/{season}"
-            data = self._get_json(url)
+            data = self.get_json(url)
             if data:
                 episodes = data.get("season", {}).get("episodes", [])
                 season_number = data["season"]["season_number"]
@@ -66,7 +66,7 @@ class FetchData_b:
             return None
 
         url = f"{self.base_url}/anime/{slug}/season/{sel_seas}/episode/{sel_ep}"
-        data = self._get_json(url)
+        data = self.get_json(url)
         if data and "episodeData" in data:
             for index in range(3, -1, -1):
                 try:
@@ -75,7 +75,21 @@ class FetchData_b:
                     continue
         return None
 
-    def _get_json(self, url):
+    def fetch_anime_movie_watch_api_url(self, slug, sel_seas, sel_ep):
+        if not slug:
+            print("No slug provided.")
+            return None
+        url = f"{self.base_url}/anime/{slug}/season/{sel_seas}/episode/{sel_ep}"
+        data = self.get_json(url)
+        if data and "episodeData" in data:
+            for index in range(3, -1, -1):
+                try:
+                    return data["episodeData"]["files"][index]["file"]
+                except (IndexError, KeyError):
+                    continue
+        return None
+
+    def get_json(self, url):
         """Fetch JSON data from the specified URL."""
         try:
             response = requests.get(url, headers=self.headers)
@@ -122,18 +136,35 @@ class Openani:
     
     def display_menu(self):
         """Ana Menü Gösterimi"""
-        tools.clear_screen() 
-        print(f"\033[33mOynatılıyor\033[0m: {self.current_anime_name} (tr-altyazılı) | {self.current_episode_index + 1}/{len(self.episodes)}")
-        
-        selected_option = prompt([{
-            "type": "list",
-            "name": "selection",
-            "message": 'Bir Seçenek Seçiniz',
-            "choices": ['Şu anki Bölümü Oynat', 'Sonraki Bölüm', 'Önceki Bölüm', 'Bölüm Seç', 'Bölüm İndir', 'Anime Ara', 'Çık'],
-            "cycle": True,
-            "border": True,
-        }])['selection']
-        
+        #tools.clear_screen() 
+        is_movie = (
+            self.episodes is None or 
+            len(self.episodes) <= 1 or 
+            (isinstance(self.episodes, dict) and self.episodes.get("type") == "movie")
+        )
+
+        if not is_movie:
+            print(f"\033[33mOynatılıyor\033[0m: {self.current_anime_name} (tr-altyazılı) | {self.current_episode_index + 1}/{len(self.episodes)}")
+            selected_option = prompt([{
+                "type": "list",
+                "name": "selection",
+                "message": 'Bir Seçenek Seçiniz',
+                "choices": ['Şu anki Bölümü Oynat', 'Sonraki Bölüm', 'Önceki Bölüm', 'Bölüm Seç', 'Bölüm İndir', 'Anime Ara', 'Çık'],
+                "cycle": True,
+                "border": True,
+            }])['selection']
+            print(self.episodes)
+        else:
+            print(f"\033[33mOynatılıyor\033[0m: {self.current_anime_name} (tr-altyazılı) | {self.current_episode_index + 1}")
+            selected_option = prompt([{
+                "type": "list",
+                "name": "selection",
+                "message": 'Bir Seçenek Seçiniz',
+                "choices": ['Filmi İzle','Filmi İndir','Anime Ara', 'Çık'],
+                "cycle": True,
+                "border": True,
+            }])['selection']
+            print(self.episodes)
         return selected_option
 
     def handle_menu_option(self, option):
@@ -146,6 +177,9 @@ class Openani:
             'Anime Ara': self.srch_anime,
             'Bölüm İndir': self.download_eps,
             'Çık': tools.exit_app,
+            
+            'Filmi İzle': lambda: tools.play_current_episode(self),
+            'Filmi İndir': self.download_eps
         }
         
         actions.get(option, tools.invalid_option)() if isinstance(option, str) else tools.invalid_option()
@@ -170,15 +204,37 @@ class Openani:
         self.episodes = self.ftch_dt_b.fetch_anime_season_episodes(self.slug)
 
         while True:
-            tools.clear_screen()
+            #tools.clear_screen()
             self.handle_menu_option(self.display_menu())
 
         #return self.current_anime_name, self.slug
-
+    def sanitize_filename(self, filename):
+        """Sanitize filename by removing or replacing invalid characters"""
+        import re
+        return re.sub(r'[<>:"/\\|?*]', '', filename).strip()
     def download_eps(self):
         """İndirilecek Bölümleri Seç ve İndir"""
-        if self.episodes is None or not self.episodes:
-            print("İndirilecek bölüm bulunamadı.")
+        safe_anime_name = self.sanitize_filename(self.current_anime_name)
+        if not self.episodes:
+            results = self.ftch_dt_b.fetch_anime_episode_watch_api_url(self.slug, sel_seas=1, sel_ep=1)
+            if results:
+                base_directory = 'Animeler'
+                os.makedirs(base_directory, exist_ok=True)
+
+                anime_directory = os.path.join(base_directory, safe_anime_name)
+                os.makedirs(anime_directory, exist_ok=True)
+
+                final_url_result = f"{self.player}/animes/{self.slug}/1/{results}"
+                file_name = f"{safe_anime_name}.mp4"
+                file_path = os.path.join(anime_directory, file_name)
+
+                try:
+                    print(f"{self.current_anime_name} İndiriliyor...")
+                    subprocess.run(['yt-dlp', '--external-downloader', 'aria2c', '--external-downloader-args', '-x 16 -s 16 -k 1M', '--no-warnings', '-o', file_path, final_url_result], check=True)
+                except subprocess.CalledProcessError as e:
+                    print("İndirme Sırasında Bir Hata Oluştu!", e)
+            else:
+                print("Geçerli Bir İndirme URL'si Bulunamadı!")
             return
 
         episode_choices = [
@@ -204,7 +260,6 @@ class Openani:
         anime_directory = os.path.join(base_directory, self.current_anime_name)
         os.makedirs(anime_directory, exist_ok=True)
 
-        # Seçilen her bölüm için indirme işlemini yap
         for episode in selected_episodes:
             episode_name, episode_number, season_number = episode
             results = self.ftch_dt_b.fetch_anime_episode_watch_api_url(self.slug, sel_ep=episode_number, sel_seas=season_number)
@@ -215,21 +270,27 @@ class Openani:
                 file_path = os.path.join(anime_directory, file_name)
                 try:
                     print(f"{episode_name} İndiriliyor...")
-                    subprocess.run(['yt-dlp', '--external-downloader', 'aria2c', '--external-downloader-args', '-x 16 -s 16 -k 1M', '--no-warnings', '-o', file_path,final_url_result], check=True)
+                    subprocess.run(['yt-dlp', '--external-downloader', 'aria2c', '--external-downloader-args', '-x 16 -s 16 -k 1M', '--no-warnings', '-o', file_path, final_url_result], check=True)
                 except subprocess.CalledProcessError as e:
                     print("İndirme Sırasında Bir Hata Oluştu!", e)
             else:
                 print("Geçerli Bir İndirme URL'si Bulunamadı!", episode_name)
 
-    def play_episode(self,episode_index):
-        """Spesifik bir Bölümü Oynat"""
-        ## https://tp1---av-u0g3jyaa-8gcu.oceanicecdn.xyz/animes/otonari-no-tenshi-sama-ni-itsunomanika-dame-ningen-ni-sareteita-ken/1/11-7081163395176599553-720p.mp4
+    def play_episode(self, episode_index=None):
+        """Spesifik bir Bölümü veya Filmi Oynat"""
+        if not self.episodes:
+            results = self.ftch_dt_b.fetch_anime_episode_watch_api_url(self.slug, sel_seas=1, sel_ep=1)
+            if results:
+                print("Film Oynatılıyor...")
+                open_with_video_player(f"{self.player}/animes/{self.slug}/1/{results}")
+            else:
+                print("Film URL'si bulunamadı.")
+            return
+
         self.episode_index = episode_index
         episode_name, episode_number, season_number = self.episodes[self.episode_index]
-        results = self.ftch_dt_b.fetch_anime_episode_watch_api_url(self.slug, sel_ep=episode_number,sel_seas=season_number)
+        results = self.ftch_dt_b.fetch_anime_episode_watch_api_url(self.slug, sel_ep=episode_number, sel_seas=season_number)
         print("Veri Çıkarılıyor...") 
 
         open_with_video_player(f"{self.player}/animes/{self.slug}/{season_number}/{results}")
-
-        
 
