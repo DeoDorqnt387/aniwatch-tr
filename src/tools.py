@@ -15,7 +15,7 @@ def display_website_selection_thing():
         {
             "type":"list",
             "name":"website_selection",
-            "message": "Bir Website Seçin.",
+            "message": "Bir Sağlayıcı Seçin.",
             "choices": choices,
             "border": True,
             "cycle":True,
