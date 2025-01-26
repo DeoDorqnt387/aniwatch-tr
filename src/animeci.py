@@ -84,7 +84,7 @@ class anifetch:
             response = requests.get(wtch_url, headers=self.headers, allow_redirects=True)
             response.raise_for_status()
 
-            time.sleep(3)  # Avoid being flagged as a bot
+            time.sleep(3)
 
             final_resp = response.url
             path = urlparse(final_resp).path
