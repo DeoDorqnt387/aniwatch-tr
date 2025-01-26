@@ -75,20 +75,6 @@ class FetchData_b:
                     continue
         return None
 
-    def fetch_anime_movie_watch_api_url(self, slug, sel_seas, sel_ep):
-        if not slug:
-            print("No slug provided.")
-            return None
-        url = f"{self.base_url}/anime/{slug}/season/{sel_seas}/episode/{sel_ep}"
-        data = self.get_json(url)
-        if data and "episodeData" in data:
-            for index in range(3, -1, -1):
-                try:
-                    return data["episodeData"]["files"][index]["file"]
-                except (IndexError, KeyError):
-                    continue
-        return None
-
     def get_json(self, url):
         """Fetch JSON data from the specified URL."""
         try:
