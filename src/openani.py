@@ -122,7 +122,7 @@ class Openani:
     
     def display_menu(self):
         """Ana Menü Gösterimi"""
-        #tools.clear_screen() 
+        tools.clear_screen() 
         is_movie = (
             self.episodes is None or 
             len(self.episodes) <= 1 or 
@@ -139,7 +139,6 @@ class Openani:
                 "cycle": True,
                 "border": True,
             }])['selection']
-            print(self.episodes)
         else:
             print(f"\033[33mOynatılıyor\033[0m: {self.current_anime_name} (tr-altyazılı) | {self.current_episode_index + 1}")
             selected_option = prompt([{
@@ -150,7 +149,6 @@ class Openani:
                 "cycle": True,
                 "border": True,
             }])['selection']
-            print(self.episodes)
         return selected_option
 
     def handle_menu_option(self, option):
@@ -190,7 +188,7 @@ class Openani:
         self.episodes = self.ftch_dt_b.fetch_anime_season_episodes(self.slug)
 
         while True:
-            #tools.clear_screen()
+            tools.clear_screen()
             self.handle_menu_option(self.display_menu())
 
         #return self.current_anime_name, self.slug
