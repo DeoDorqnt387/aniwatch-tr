@@ -29,7 +29,7 @@ def display_website_selection_thing():
 def display_website_selection_thing():
     """Website Seçim Penceresi"""
     clear_screen()
-    choices= ["AnimeciX (ID: 856)", "Openani.me (ID: 525)"]
+    choices= ["AnimeciX (ID: 856) [Önerilen]", "Openani.me (ID: 525)"]
     l = [
         {
             "type":"list",
@@ -96,7 +96,7 @@ def select_ep(ani):
     else:
         print("Bölüm Bulunamadı!")
         time.sleep(0.8)
-            
+
 def invalid_option():
     """Geçersiz veri"""
     print("Geçersiz bir seçenek girdiniz. Lütfen geçerli bir seçenek giriniz.")
