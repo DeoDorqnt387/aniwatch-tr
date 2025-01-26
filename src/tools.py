@@ -74,9 +74,20 @@ def previous_episode(ani):
 
 def select_ep(ani):
     if ani.episodes:
-        selected_name, _ = ani.select_episode(ani.episodes)
+        episode_selection = ani.select_episode(ani.episodes)
+        if len(episode_selection) == 2:
+            selected_name, _ = episode_selection
+        elif len(episode_selection) == 3:
+            selected_name, _, _ = episode_selection
+        elif len(episode_selection) == 1:
+            selected_name = episode_selection[0]
+        else:
+            print("Beklenmeyen seçim formatı!")
+            return
+        
         ani.current_episode_index = next(
-            (i for i, ep in enumerate(ani.episodes) if ep['name'] == selected_name), 
+            (i for i, ep in enumerate(ani.episodes) 
+             if (ep[0] if isinstance(ep, tuple) else ep.get('name')) == selected_name), 
             None
         )
         if ani.current_episode_index is None:
