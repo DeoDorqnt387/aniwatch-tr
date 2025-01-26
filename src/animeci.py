@@ -350,10 +350,14 @@ class animecix:
         """Spesifik bir Bölümü Oynat"""
         if not (self.episodes and isinstance(self.episodes, list) and 0 <= index < len(self.episodes)):
             if hasattr(self, 'selected_id'):
-                url = self.ftch_dt_a.fetch_anime_watch_api_url_movie(selected_id=self.selected_id)
-                open_with_video_player(url)
-            else:
-                print("Geçerli bir bölüm bulunamadı veya indeks geçersiz.")
+                url = self.ftch_dt_a.fetch_anime_watch_api_url_movie(self.selected_id)
+                if url:
+                    open_with_video_player(url)
+                else:
+                    print("Film URL'si bulunamadı.")
+                return
+
+            print("Geçerli bir bölüm bulunamadı veya indeks geçersiz.")
             return
 
         episode = self.episodes[index]
@@ -368,7 +372,6 @@ class animecix:
             return
 
         try_best_qua = [2, 1, 0]
-        
         play_url = next((urls[idx].get('url') for idx in try_best_qua if idx < len(urls)), None)
 
         if play_url:
@@ -376,4 +379,3 @@ class animecix:
             open_with_video_player(play_url)
         else:
             print(f"Geçerli Bir Video URL'si Bulunamadı: {episode['name']}")
-

@@ -7,7 +7,7 @@ def main():
     app = animecix()
     openani = Openani()
     selection = tools.display_website_selection_thing()
-    if selection == "AnimeciX (ID: 856)":
+    if selection == "AnimeciX (ID: 856) [Önerilen]":
         app.srch_anime()
     else:
         openani.srch_anime()

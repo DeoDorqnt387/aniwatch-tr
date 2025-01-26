@@ -15,7 +15,7 @@ def display_website_selection_thing():
         {
             "type":"list",
             "name":"website_selection",
-            "message": "Bir Website Seçin.",
+            "message": "Bir Sağlayıcı Seçin.",
             "choices": choices,
             "border": True,
             "cycle":True,
@@ -29,7 +29,7 @@ def display_website_selection_thing():
 def display_website_selection_thing():
     """Website Seçim Penceresi"""
     clear_screen()
-    choices= ["AnimeciX (ID: 856)", "Openani.me (ID: 525)"]
+    choices= ["AnimeciX (ID: 856) [Önerilen]", "Openani.me (ID: 525)"]
     l = [
         {
             "type":"list",
@@ -74,9 +74,20 @@ def previous_episode(ani):
 
 def select_ep(ani):
     if ani.episodes:
-        selected_name, _ = ani.select_episode(ani.episodes)
+        episode_selection = ani.select_episode(ani.episodes)
+        if len(episode_selection) == 2:
+            selected_name, _ = episode_selection
+        elif len(episode_selection) == 3:
+            selected_name, _, _ = episode_selection
+        elif len(episode_selection) == 1:
+            selected_name = episode_selection[0]
+        else:
+            print("Beklenmeyen seçim formatı!")
+            return
+        
         ani.current_episode_index = next(
-            (i for i, ep in enumerate(ani.episodes) if ep['name'] == selected_name), 
+            (i for i, ep in enumerate(ani.episodes) 
+             if (ep[0] if isinstance(ep, tuple) else ep.get('name')) == selected_name), 
             None
         )
         if ani.current_episode_index is None:
@@ -85,7 +96,7 @@ def select_ep(ani):
     else:
         print("Bölüm Bulunamadı!")
         time.sleep(0.8)
-            
+
 def invalid_option():
     """Geçersiz veri"""
     print("Geçersiz bir seçenek girdiniz. Lütfen geçerli bir seçenek giriniz.")
