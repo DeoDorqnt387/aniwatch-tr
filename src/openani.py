@@ -5,7 +5,7 @@ from InquirerPy import inquirer, prompt
 from InquirerPy.base.control import Choice
 from watch import *
 
-class FetchData_b:
+class openfetch:
     def __init__(self):
         # WEBSITE: https://openani.me/
         self.base_url = "https://api.openani.me"
@@ -87,7 +87,7 @@ class FetchData_b:
 
 class Openani:
     def __init__(self):
-        self.ftch_dt_b = FetchData_b()
+        self.ftch_dt_b = openfetch()
         self.episodes = []
         self.player = "https://tp1---av-u0g3jyaa-8gcu.oceanicecdn.xyz"
         self.slug = ""
