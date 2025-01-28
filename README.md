@@ -51,7 +51,7 @@ scoop install mpv
 
 **PIP**
 ```bash
-pip install aniwatch-tr #v0.3.8
+pip install aniwatch-tr #v0.3 Eski sürüm, Çalışmayabilir.
 ```
 
 **Manual Kurulum**
