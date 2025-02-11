@@ -3,7 +3,7 @@
 </h1>
 
 <h4 align="center">
-TÜRKÇE | <a href="https://github.com/DeoDorqnt387/aniwatch-tr/blob/main/eng.md">ENGLISH</a>
+TÜRKÇE
 </h4>
 
 <h3 align="center">
@@ -51,7 +51,7 @@ scoop install mpv
 
 **PIP**
 ```bash
-pip install aniwatch-tr #v0.3.8
+pip install aniwatch-tr #v0.3 Eski sürüm, Çalışmayabilir.
 ```
 
 **Manual Kurulum**
