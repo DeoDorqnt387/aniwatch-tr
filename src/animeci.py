@@ -99,7 +99,8 @@ class anifetch:
         except requests.RequestException as e:
             print("Error occurred while fetching watch API URL:", e)
             return []
-
+        
+    ### Çalışmıyor, Düzeltilmesi Gerekli ###
     def fetch_anime_watch_api_url_movie(self, selected_id):
         """Fetch watch URL for a movie based on its ID."""
         url = f"https://mangacix.net/secure/titles/{selected_id}"
@@ -119,6 +120,8 @@ class anifetch:
             path = urlparse(url_vid).path
             embed_id = path.split("/")[2]
             api_url = f"https://{self.video_players[0]}/api/video/{embed_id}"
+            print(api_url)
+            time.sleep(5)
             video_data = self._get_json(api_url)
             
             if not video_data:
