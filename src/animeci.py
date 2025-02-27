@@ -1,6 +1,4 @@
-import os, time, re, requests
-import subprocess
-import tools
+import os, time, re, requests, subprocess, tools
 
 from urllib.parse import urlparse, parse_qs
 from InquirerPy import inquirer, prompt
@@ -48,7 +46,7 @@ class anifetch:
 
     def fetch_anime_seasons(self, selected_id):
         """Fetch seasonal data for the specified anime ID."""
-        url = f"https://mangacix.net/secure/related-videos?episode=1&season=1&titleId={selected_id}"
+        url = f"https://mangacix.net/secure/related-videos?episode=1&season=1&titleId={selected_id}&videoId=637113"
         json_data = self._get_json(url)
 
         if json_data and "videos" in json_data:
@@ -66,7 +64,7 @@ class anifetch:
         seen_episode_names = set()
 
         for season_index in seasons:
-            srch_eps_data_url = f"https://mangacix.net/secure/related-videos?episode=1&season={season_index + 1}&titleId={selected_id}"
+            srch_eps_data_url = f"https://mangacix.net/secure/related-videos?episode=1&season={season_index + 1}&titleId={selected_id}&videoId=637113"
             data = self._get_json(srch_eps_data_url)
             if data and 'videos' in data:
                 for item in data['videos']:
