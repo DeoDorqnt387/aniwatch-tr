@@ -1,4 +1,4 @@
-import subprocess
+import subprocess, time
 
 def open_with_video_player(url):
     """Video Oynatıcı"""
@@ -6,3 +6,4 @@ def open_with_video_player(url):
         subprocess.run(['mpv', '--fullscreen', url], check=True)
     except subprocess.CalledProcessError as e:
         print("Oynatılırken Hata Oluştu!", e)
+        time.sleep(10)
