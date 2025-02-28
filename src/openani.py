@@ -92,7 +92,7 @@ class Openani:
     def __init__(self):
         self.ftch_dt_b = openfetch()
         self.episodes = []
-        self.player = "https://tp1---av-u0g3jyaa-8gcu.oceanicecdn.xyz"
+        self.player = "https://de2---vn-t9g4tsan-5qcl.yeshi.eu.org"
         self.slug = ""
         self.episode_index = 0
         self.selected_name = ""

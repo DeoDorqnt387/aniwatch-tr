@@ -4,7 +4,7 @@
 
 <h3 align="center">
     <img src="https://img.shields.io/badge/Animecix.net - Çalışıyor-green?style=for-the-badge">
-    <img src="https://img.shields.io/badge/Openani.me - Çalışmıyor-red?style=for-the-badge">
+    <img src="https://img.shields.io/badge/Openani.me - Çalışıyor-green?style=for-the-badge">
 </h3>
 
 <h4 align="center">
