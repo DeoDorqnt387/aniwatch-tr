@@ -8,8 +8,8 @@ from watch import *
 
 class anifetch:
     def __init__(self):
-        # WEBSITE: https://animecix.net/
-        self.base_url = "https://animecix.net/"
+        # WEBSITE: https://anm.cx/
+        self.base_url = "https://anm.cx/"
         self.video_players = ["tau-video.xyz", "sibnet"]
         self.headers = {
             'Accept': 'application/json',
