@@ -277,7 +277,6 @@ class Openani:
         self.episode_index = episode_index
         episode_name, episode_number, season_number = self.episodes[self.episode_index]
         results = self.ftch_dt_b.fetch_anime_episode_watch_api_url(self.slug, sel_ep=episode_number, sel_seas=season_number)
-        print("Veri Çıkarılıyor...") 
 
         open_with_video_player(f"{self.player}/animes/{self.slug}/{season_number}/{results}")
 
