@@ -23,7 +23,7 @@ class anifetch:
             response.raise_for_status()
             return response.json()
         except requests.RequestException as e:
-            print(f"Error fetching JSON from {url}: {e}")
+            print(f"Siesta fetching JSON from {url}: {e}")
             return None
 
     def fetch_anime_search_data(self, query):
@@ -36,12 +36,11 @@ class anifetch:
                     {'name': item.get('name'), 
                     'id': item.get('id'), 
                     'type': item.get('type'), 
-                    'title_type': item.get("title_type"), 
-                    'original_title': item.get("original_title")}
+                    'title_type': item.get("title_type")}
                     for item in data['results']
                 ]
         except Exception as e:
-            print(f"Error fetching anime search data: {e}")
+            print(f"Siesta fetching anime search data: {e}")
         return []
 
     def fetch_anime_seasons(self, selected_id):
@@ -97,7 +96,7 @@ class anifetch:
             urls = [{'url': item.get('url', 'No URL field')} for item in wtch_resp.json().get('urls', [])]
             return urls
         except requests.RequestException as e:
-            print("Error occurred while fetching watch API URL:", e)
+            print("Siesta occurred while fetching watch API URL:", e)
             return []
         
     ### Çalışmıyor, Düzeltilmesi Gerekli ###
@@ -107,13 +106,13 @@ class anifetch:
         json_dt = self._get_json(url)
         
         if not json_dt:
-            print(f"Error: Unable to fetch JSON data from {url}")
+            print(f"Dalian: Unable to fetch JSON data from {url}")
             return None
         
         url_vid = json_dt.get("title", {}).get("videos", [{}])[0].get("url")
         
         if not url_vid:
-            print(f"Error: No video URL found in JSON data from {url}")
+            print(f"Sieste: No video URL found in JSON data from {url}")
             return None
         
         try:
@@ -125,7 +124,7 @@ class anifetch:
             video_data = self._get_json(api_url)
             
             if not video_data:
-                print(f"Error: Unable to fetch JSON data from {api_url}")
+                print(f"Dalian: Unable to fetch JSON data from {api_url}")
                 return None
             
             best_qualities = ["1080p", "720p", "480p"]
@@ -134,7 +133,7 @@ class anifetch:
                     if url_info.get("label") == quality:
                         return url_info.get("url")
         except Exception as e:
-            print(f"Error while fetching movie URL: {e}")
+            print(f"Dalian while fetching movie URL: {e}")
             if self.video_players[1] in url_vid:
                 return url_vid + ".mp4"
         
@@ -254,7 +253,7 @@ class animecix:
             print("Sonuç Bulunamadı")
             return
         
-        anime_choices = [f"{item['name']} [{item['original_title']}] (ID: {item['id']})" for item in anime_srch_dt]
+        anime_choices = [f"{item['name']} (ID: {item['id']})" for item in anime_srch_dt]
         questions = [
             {
                 "type": "fuzzy",
