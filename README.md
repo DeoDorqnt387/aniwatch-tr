@@ -1,5 +1,5 @@
 <h1 align="center">
-<strong> AniWatch-tr </strong>
+AniWatch-TR
 </h1>
 
 <h3 align="center">
@@ -13,7 +13,7 @@
 
 [![Video Thumbnail](https://github.com/user-attachments/assets/311a0f45-91f9-44dc-827a-47a623876d86)](https://github.com/user-attachments/assets/311a0f45-91f9-44dc-827a-47a623876d86)
 
-## ![Ode to Joy](https://github.com/user-attachments/assets/10ab0055-4c5b-4530-9eb9-1b86ed572425) ÖN GEREKSİNİMLER
+## ÖN GEREKSİNİMLER
 
 Bilgisayarınızda [**mpv**](https://github.com/mpv-player/mpv) programının kurulu olduğundan emin olun. Eğer kurulu değilse, aşağıdaki adımları izleyerek kurabilirsiniz:
 
@@ -45,7 +45,7 @@ scoop install mpv
 [MPV](https://github.com/shinchiro/mpv-winbuild-cmake/releases) Uygulamasını Path'e ekleyin.
 
 
-## ![Eine kleine Nachtmusik](https://github.com/user-attachments/assets/7680f19d-66c1-4c82-b962-93b6f6e24a0a) KURULUM
+## KURULUM
 
 **PIP**
 ```bash
@@ -60,14 +60,14 @@ cd ~ && git clone https://github.com/DeoDorqnt387/aniwatch-tr.git && bash aniwat
 sudo cp ~/.aniwatch-tr/aniwatch-tr /usr/local/bin/aniwatch-tr
 ```
 
-## ![Fantaisie Impromptu](https://github.com/user-attachments/assets/ca9a7912-d73c-4982-aa87-742fd3b75264) KULLANIM
+## KULLANIM
 
 
 ```bash
 aniwatch-tr
 ```
 
-## ![Pomp and Circumstance](https://github.com/user-attachments/assets/224c3e08-3aa1-4cf6-9a36-9c8e63c21638) NASIL KALDIRILIR?
+## NASIL KALDIRILIR?
 
 
 ```bash
