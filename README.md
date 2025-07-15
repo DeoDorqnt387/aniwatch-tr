@@ -95,7 +95,7 @@ Python 3.13 ve üzerinde test etmedim, çalışmayabilir.
 
 ## 📦 PIP ile Kurulum
 
-Aniwatch-TR’yi pip ile kolayca kurabilirsiniz:
+Aniwatch-TR’yi pip ile kolayca kurabilirsiniz(Windows/Linux):
 
 ```bash
 pip install aniwatch-tr
@@ -110,7 +110,8 @@ Windows kullanıyorsanız, hiçbir bağımlılıkla uğraşmadan çalıştırmak
 
 <img width="167" height="121" alt="image" src="https://github.com/user-attachments/assets/1b26525e-f6de-4906-a9e0-4c3bb9709d21" />
 
-<sub>Sertifikası olmadığından dolayı windows dosyayı virus olarak algılıyor, aklınızda bulunsun.</sub>
+> [!WARNING]  
+> Sertifikası olmadığından dolayı windows dosyayı virus olarak algılıyor, aklınızda bulunsun.
 
 ## 🚀 Kullanım
 Kurulum sonrası terminal veya komut istemcisine şunu yazmanız yeterli:
