@@ -1,4 +1,7 @@
-requests 
-inquirerpy 
-aria2 
+requests
 yt-dlp
+questionary
+tqdm
+rich
+beautifulsoup4
+prompt_toolkit
