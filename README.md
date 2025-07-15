@@ -1,79 +1,132 @@
 <h1 align="center">
-AniWatch-TR
+Aniwatch-TR
 </h1>
 
 <h3 align="center">
     <img src="https://img.shields.io/badge/Animecix.net - Çalışıyor-green?style=for-the-badge">
-    <img src="https://img.shields.io/badge/Openani.me - Çalışıyor-green?style=for-the-badge">
+    <img src="https://img.shields.io/badge/Openani.me - Devre dışı-red?style=for-the-badge">
 </h3>
 
 <h3 align="center">
     Terminalden Türkçe anime izleme, indirme.
 </h3>
 
-[![Video Thumbnail](https://github.com/user-attachments/assets/311a0f45-91f9-44dc-827a-47a623876d86)](https://github.com/user-attachments/assets/311a0f45-91f9-44dc-827a-47a623876d86)
+[demo.webm](https://github.com/user-attachments/assets/e768c497-f7d3-4dd1-9351-6643bc4f213e)
+<h4 align="center">
+    <sub>Op/Ed sevdam beni yiyip bitiriyor.</sub>
+</h4>
 
-## ÖN GEREKSİNİMLER
-
-Bilgisayarınızda [**mpv**](https://github.com/mpv-player/mpv) programının kurulu olduğundan emin olun. Eğer kurulu değilse, aşağıdaki adımları izleyerek kurabilirsiniz:
-
-**Arch/Arch-Based:**
-```bash
-sudo pacman -S mpv yt-dlp
-```
-**Ubuntu/Debian**
-```bash
-sudo apt-get install mpv yt-dlp
-```
-**Fedora**
-```bash
-sudo dnf install mpv yt-dlp
-```
-**OpenSUSE**
-```bash
-sudo zypper install mpv yt-dlp
-```
 ---
 
-**Windows**
- [Scoop ile kurulum](https://adamtheautomator.com/scoop-windows/):
+## 📑 İçindekiler
+- [Bilinen Sorunlar](#bilinen-sorunlar)
+- [Gereksinimler](#gereksinimler)
+- [Config Dosyası](#config-dosyası)
+- [Kurulum](#-kurulum)
+    - [PIP ile Kurulum](#-pip-ile-kurulum)
+    - [Windows için .exe Dosyası](#-windows-için-exe-dosyası)
+- [Kullanım](#-kullanım)
+- [Nasıl Kaldırılır?](#-nasıl-kaldırılır)
+
+---
+## Bilinen Sorunlar
+- Bazı Bölümlerde/Animelerde Altyazı olmaması.
+- Movie(film) izleyememe sorunu.
+  
+<sub>Bunlar bildiğim ve yakın zamanda çözmeyi planladığım şeyler.</sub>
+
+---
+
+## Gereksinimler
+
+Bilgisayarınız'da [Mpv](https://mpv.io/) ve/veya [Vlc](https://www.videolan.org/vlc/) kurulu olması gerekmektedir. Aksi Takdirde Videolar Oynatılmayacak ve
 ```bash
-scoop install mpv
+if not self.is_player_available(player):
+    raise RuntimeError(f"Oynatıcı bulunamadı: {self.players[player]['name']}")
 ```
-**Windows Manual Kurulum**:
+hatasını tetikleyecektir.
 
-[MPV](https://github.com/shinchiro/mpv-winbuild-cmake/releases) Uygulamasını Path'e ekleyin.
+Eğer Linux kullanıyorsanız kolayca:
 
-
-## KURULUM
-
-**PIP**
+#### Arch/Arch-based
 ```bash
-pip install aniwatch-tr #Bozuk Çalışmıyor, Windows'a zip olarak indirip çalıştırmayı deneyin.
+sudo pacman -S mpv/vlc
 ```
 
-**Manual Kurulum**
+ile kurabilirsiniz.
+
+Windows'ta ise Websitelerinden indirebilirsiniz:
+
+[MPV](https://mpv.io/)  [VLC](https://www.videolan.org/vlc/)
+
+
+---
+
+### Config Dosyası
+Config Dosyası Programı ilk açtığınızda oluşan, yaptığınız ayarların depolandığı yerdir ve Şöyle gözükmektedir:
+
 ```bash
-cd ~ && git clone https://github.com/DeoDorqnt387/aniwatch-tr.git && bash aniwatch-tr/install.sh
+{
+    "player": "mpv", # Mpv / Vlc Seçimi
+    "provider": "Animecix.tv", # Sağlayıcılar
+    "video_quality": "En Yüksek Kalite", ## En Düşük ve En yüksek kalite
+    "fullscreen": true, ## Tam Ekran Aç/Kapa
+    "download_folder": "C:\\Users\\yigit\\.aniwatch-tr\\downloads" # Varsayılan/Değiştirilmemiş
+}
 ```
+Herhangi bir ayarı değiştirdiğinizde config.json dosyası değişmektedir.
+
+Windows'da Config.json dosyası şurada yer almaktadır:
 ```bash
-sudo cp ~/.aniwatch-tr/aniwatch-tr /usr/local/bin/aniwatch-tr
+C:\Kullanıcılar\<kullanıcı-adınız>\.aniwatch-tr\config.json
+```
+Linux'da Config.json dosyası şurada yer almaktadır:
+```bash
+/home/<kullanıcı-adınız>/.aniwatch-tr/config.json
+```
+Herhangi bir sorun yaşarsanız config.json'u buradan el ile düzeltebilirsiniz.
+
+---
+
+## 💻 Kurulum
+
+Aniwatch-TR’yi kullanabilmek için bilgisayarınızda **Python 3.9 ile 3.12** sürümleri arasında bir sürüm kurulu olmalıdır.  
+Python 3.13 ve üzerinde test etmedim, çalışmayabilir.
+
+## 📦 PIP ile Kurulum
+
+Aniwatch-TR’yi pip ile kolayca kurabilirsiniz:
+
+```bash
+pip install aniwatch-tr
 ```
 
-## KULLANIM
+---
 
+## 🪟 Windows için .exe Dosyası
+Windows kullanıyorsanız, hiçbir bağımlılıkla uğraşmadan çalıştırmak için aşağıdaki linkten .exe dosyasını indirebilirsiniz:
 
+👉 [Aniwatch-TR Releases](https://github.com/DeoDorqnt387/aniwatch-tr/releases)
+
+<img width="167" height="121" alt="image" src="https://github.com/user-attachments/assets/1b26525e-f6de-4906-a9e0-4c3bb9709d21" />
+
+<sub>Sertifikası olmadığından dolayı windows dosyayı virus olarak algılıyor, aklınızda bulunsun.</sub>
+
+## 🚀 Kullanım
+Kurulum sonrası terminal veya komut istemcisine şunu yazmanız yeterli:
 ```bash
 aniwatch-tr
 ```
 
-## NASIL KALDIRILIR?
-
-
+## ❌ Nasıl Kaldırılır?
+Kurulumu kaldırmak için:
 ```bash
-sudo rm /usr/local/bin/aniwatch-tr && sudo rm -rf ~/.aniwatch-tr
+pip uninstall aniwatch-tr
 ```
+Windows için .exe kullanıyorsanız, dosyayı silmeniz yeterlidir.
 
-<hr>
+<sub>Config dosyasını da silmeyi unutmayın.</sub>
 
-[Ani-cli](https://github.com/pystardust/ani-cli)'den Esinlenilmiştir.
+---
+
+[ani-cli](https://github.com/pystardust/ani-cli)'den Esinlenilmiştir.
