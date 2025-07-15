@@ -71,7 +71,7 @@ Config Dosyası Programı ilk açtığınızda oluşan, yaptığınız ayarları
     "provider": "Animecix.tv", # Sağlayıcılar
     "video_quality": "En Yüksek Kalite", ## En Düşük ve En yüksek kalite
     "fullscreen": true, ## Tam Ekran Aç/Kapa
-    "download_folder": "C:\\Users\\yigit\\.aniwatch-tr\\downloads" # Varsayılan/Değiştirilmemiş
+    "download_folder": "C:\\Users\\<kullanici-adiniz>\\.aniwatch-tr\\downloads" # Varsayılan/Değiştirilmemiş
 }
 ```
 Herhangi bir ayarı değiştirdiğinizde config.json dosyası değişmektedir.
