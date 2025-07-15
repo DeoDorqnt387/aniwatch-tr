@@ -80,11 +80,11 @@ Windows'da Config.json dosyası şurada yer almaktadır:
 ```bash
 C:\Kullanıcılar\<kullanıcı-adınız>\.aniwatch-tr\config.json
 ```
-Linux'da Config.json dosyası şurada yer almaktadır:
+Linux'da ise şurada:
 ```bash
 /home/<kullanıcı-adınız>/.aniwatch-tr/config.json
 ```
-Herhangi bir sorun yaşarsanız config.json'u buradan el ile düzeltebilirsiniz.
+Herhangi bir sorun yaşarsanız config.json'u el ile düzeltebilirsiniz.
 
 ---
 
