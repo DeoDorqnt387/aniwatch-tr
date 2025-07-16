@@ -54,6 +54,8 @@ ile kurabilirsiniz.
 Windows'da ise Websitelerinden indirebilirsiniz: [MPV](https://mpv.io/)  [VLC](https://www.videolan.org/vlc/)
 
 ### Tkinter
+Klasör Seçimi İçin ise python tkinter'a ihtiyacımız var:
+#### Ubuntu
 ```bash
 sudo apt install python3-tkinter
 ```
