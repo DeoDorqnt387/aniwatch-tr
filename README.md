@@ -34,7 +34,7 @@ Aniwatch-TR
 ---
 
 ## Gereksinimler
-
+### MPV / VLC
 Bilgisayarınız'da [Mpv](https://mpv.io/) ve/veya [Vlc](https://www.videolan.org/vlc/) kurulu olması gerekmektedir. Aksi Takdirde Videolar Oynatılmayacak ve
 ```bash
 if not self.is_player_available(player):
@@ -51,10 +51,12 @@ sudo pacman -S mpv/vlc
 
 ile kurabilirsiniz.
 
-Windows'ta ise Websitelerinden indirebilirsiniz:
+Windows'da ise Websitelerinden indirebilirsiniz: [MPV](https://mpv.io/)  [VLC](https://www.videolan.org/vlc/)
 
-[MPV](https://mpv.io/)  [VLC](https://www.videolan.org/vlc/)
-
+### Tkinter
+```bash
+sudo apt install python3-tkinter
+```
 
 ---
 
