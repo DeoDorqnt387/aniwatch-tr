@@ -11,7 +11,7 @@ Aniwatch-TR
     Terminalden Türkçe anime izleme, indirme.
 </h3>
 
-[demo.webm](https://github.com/user-attachments/assets/e768c497-f7d3-4dd1-9351-6643bc4f213e)
+[demo.webm](https://github.com/user-attachments/assets/f71ebc74-edb6-4aeb-baaa-72fc4fd4daf1)
 
 ---
 
