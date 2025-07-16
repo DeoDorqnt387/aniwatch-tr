@@ -27,7 +27,6 @@ Aniwatch-TR
 
 ---
 ## Bilinen Sorunlar
-- Bazı Bölümlerde/Animelerin Yapay Çevirilerinde Altyazı olmaması.
 - Movie(film) izleyememe sorunu.
   
 <sub>Bunlar bildiğim ve yakın zamanda çözmeyi planladığım şeyler.</sub>

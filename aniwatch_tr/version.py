@@ -7,11 +7,10 @@ import requests
 from urllib.request import urlopen
 from urllib.error import URLError
 
-__version__ = "1.0.0"
+__version__ = "1.0.2"
 __author__ = "DeoDorqnt387"
 
 def current_version():
-    """Mevcut aniwatch-tr versiyonunu al"""
     return __version__
 
 def latest_github_version():
@@ -64,11 +63,11 @@ def aniwatch_status():
     current = current_version()
     
     latest = latest_github_version()
-    source = "GitHub"
+    # source = "GitHub"
     
     if not latest:
         latest = latest_pypi_version()
-        source = "PyPI"
+        # source = "PyPI"
     
     if not latest:
         return f"⚠️ Güncel versiyon kontrol edilemedi (Mevcut: {current})"

@@ -86,6 +86,31 @@ class AnimeciAPI:
             error_handler.log_warning(f"Episode işleminde hata: {e}")
             return []
 
+    def fetch_captions_for_the_humanity(self, season_index, episode_index, selected_id):
+        try:
+            url = f"{self.base_url[1]}/secure/related-videos?episode=1&season={season_index}&titleId={selected_id}&videoId=637113"
+            data = self._get_json(url)
+            
+            videos = data["videos"]
+            if episode_index >= len(videos):
+                return None
+            
+            video = videos[episode_index]
+            captions = video.get('captions', [])
+
+            for caption in captions:
+                if caption.get('language') == 'tr':
+                    return caption.get('url')
+                
+            if captions:
+                return captions[0].get('url')
+        
+            return None
+        
+        except AnimeciError as e:
+            error_handler.log_warning(f"Caption işleminde hata: {e}")
+            return None
+
     def fetch_anime_stream_api_url(self, url):
         """Fetch the watch URL for a given anime URL."""
         stream_url = f"{self.base_url[0]}{url}"
@@ -117,51 +142,19 @@ class AnimeciAPI:
             return []
         
     ########################################################
-    def fetch_anime_stream_api_url_movie(self, selected_id):
-        """Fetch watch URL for a movie based on its ID."""
-        url = f"{self.base_url[1]}/secure/titles/{selected_id}"
-        json_dt = self._get_json(url)
+    def fetch_anime_movie_stream_api_url(self, title_id):
+
+        url = f"https://mangacix.net/secure/titles/{title_id}"
+        json_data = self._get_json(url)
         
-        if not json_dt:
-            error_handler.log_error(
-                ErrorCodes.ERROR_MOVIE_DATA, 
-                url=url,
-                raise_exception=True
-            )
+        if not json_data:
+            print(f"{error_handler.log_warning(ErrorCodes.ERROR_FETCHING_JSON_FROM)}{url}")
+            return None
         
-        url_vid = json_dt.get("title", {}).get("videos", [{}])[0].get("url")
+        url_vid = json_data.get("title", {}).get("videos", [{}])[0].get("url")
         
         if not url_vid:
-            error_handler.log_error(
-                ErrorCodes.ERROR_MOVIE_URL, 
-                url=url,
-                raise_exception=True
-            )
+            print(f"{error_handler.log_warning(ErrorCodes.ERROR_FETCHING_JSON_FROM)}{url}")
+            return None
         
-        try:
-            path = urlparse(url_vid).path
-            embed_id = path.split("/")[2]
-            api_url = f"https://{self.video_players[0]}/api/video/{embed_id}"
-            print(api_url)
-            time.sleep(5)
-            video_data = self._get_json(api_url)
-            
-            if not video_data:
-                print(f"ERR: Unable to fetch JSON data from {api_url}")
-                return None
-            
-            best_qualities = ["1080p", "720p", "480p"]
-            for quality in best_qualities:
-                for url_info in video_data.get('urls', []):
-                    if url_info.get("label") == quality:
-                        return url_info.get("url")
-        except requests.exceptions.RequestException as e:
-            error_handler.log_error(
-                ErrorCodes.ERROR_MOVIE_DATA, 
-                original_error=e, 
-                url=url, 
-                raise_exception=True
-            )
-            return []
-        
-        return None
+        pass

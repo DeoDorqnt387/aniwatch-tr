@@ -7,11 +7,11 @@ CONFIG_PATH = os.path.join(CONFIG_DIR, "config.json")
 
 # Varsayılan config içeriği
 DEFAULT_CONFIG = {
-    "player": "mpv",
-    "provider": "Animecix.tv",
-    "video_quality": "En Yüksek",
-    "fullscreen": True,
-    "download_folder": os.path.join(CONFIG_DIR, "downloads")
+    "player": "mpv", # MPV/VLC
+    "provider": "Animecix.tv", # Sağlayıcı
+    "video_quality": "En Yüksek Kalite", # En Düşük ve En yüksek kalite
+    "fullscreen": True, # Tam Ekran Aç/Kapa
+    "download_folder": os.path.join(CONFIG_DIR, "downloads") # Klasör Yolu
 }
 
 
@@ -20,7 +20,7 @@ def ensure_config_exists():
         os.makedirs(CONFIG_DIR)
 
     if not os.path.exists(CONFIG_PATH):
-        # sadece dosya yoksa yaratmak için:
+        # Dosya Yoksa Yarat
         with open(CONFIG_PATH, "w", encoding="utf-8") as f:
             json.dump(DEFAULT_CONFIG, f, indent=4, ensure_ascii=False)
 
