@@ -12,9 +12,6 @@ Aniwatch-TR
 </h3>
 
 [demo.webm](https://github.com/user-attachments/assets/e768c497-f7d3-4dd1-9351-6643bc4f213e)
-<h4 align="center">
-    <sub>Op/Ed sevdam beni yiyip bitiriyor.</sub>
-</h4>
 
 ---
 
