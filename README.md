@@ -34,28 +34,31 @@ Aniwatch-TR
 ---
 
 ## Gereksinimler
+
 ### MPV / VLC
-Bilgisayarınız'da [Mpv](https://mpv.io/) ve/veya [Vlc](https://www.videolan.org/vlc/) kurulu olması gerekmektedir. Aksi Takdirde Videolar Oynatılmayacak ve
-```bash
+
+Videoların oynatılabilmesi için bilgisayarınızda [MPV](https://mpv.io/) ve/veya [VLC](https://www.videolan.org/vlc/) kurulu olmalıdır.  
+Aksi takdirde videolar çalışmaz ve şu hatayı tetikler/karşılaşırsınız:
+
+```python
 if not self.is_player_available(player):
     raise RuntimeError(f"Oynatıcı bulunamadı: {self.players[player]['name']}")
 ```
-hatasını tetikleyecektir.
 
-Eğer Linux kullanıyorsanız kolayca:
-
-#### Arch/Arch-based
+Linux (Arch/Arch-tabanlı)
 ```bash
-sudo pacman -S mpv/vlc
+sudo pacman -S mpv vlc
 ```
 
-ile kurabilirsiniz.
+Windows
+Kurulum için resmi siteleri ziyaret edebilirsiniz: 
+- [MPV](https://mpv.io/)  
+- [VLC](https://www.videolan.org/vlc/)
 
-Windows'da ise Websitelerinden indirebilirsiniz: [MPV](https://mpv.io/)  [VLC](https://www.videolan.org/vlc/)
+### Tkinter (Klasör Seçimi için)
+Klasör seçim penceresi için tkinter modülü gereklidir.
 
-### Tkinter
-Klasör Seçimi İçin ise python tkinter'a ihtiyacımız var:
-#### Ubuntu
+Ubuntu
 ```bash
 sudo apt install python3-tk
 ```
