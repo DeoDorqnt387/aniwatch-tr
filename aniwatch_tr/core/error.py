@@ -60,7 +60,6 @@ class ErrorCodes:
     }
 
 class AnimeciError(Exception):
-    """Özel exception class"""
     
     def __init__(self, error_info, original_error=None, url=None):
         self.name = error_info["name"]
@@ -79,7 +78,7 @@ class AnimeciError(Exception):
         super().__init__(message)
 
 class ErrorHandler:
-    """Error logging ve handling için yardımcı class"""
+    
     
     def __init__(self, log_level=logging.INFO, logger_name='AnimeciAPI'):
         self.logger = logging.getLogger(logger_name)
@@ -95,7 +94,7 @@ class ErrorHandler:
             self.logger.addHandler(handler)
     
     def log_error(self, error_info, original_error=None, url=None, raise_exception=False):
-        """Error'u log'a yazar"""
+        
         error_msg = f"[{error_info['code']}] {error_info['name']}: {error_info['desc']}"
         if url:
             error_msg += f" (URL: {url})"
