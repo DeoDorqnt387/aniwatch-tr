@@ -38,7 +38,7 @@ class MediaPlayer:
             
         player_info = self.players[player_id]
         
-        # PATH'te kontrol et
+        
         try:
             subprocess.run([player_info['cmd'], '--version'], 
                          capture_output=True, timeout=5)
@@ -46,7 +46,7 @@ class MediaPlayer:
         except:
             pass
         
-        # Yaygın yollarda kontrol et
+        
         if player_id in self.common_paths:
             for path in self.common_paths[player_id]:
                 if os.path.exists(path):
