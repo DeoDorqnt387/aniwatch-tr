@@ -23,16 +23,16 @@ from rich.progress import (
 )
 
 prompt_style = styles.Style([
-    ('qmark',        'fg:#707070 bold'),       # Tatlı sarı soru işareti
-    ('question',     'fg:#707070 bold'),       # Beyazımsı açık soru metni
-    ('answer',       'fg:#ffd166 bold'),       # Sıcak pastel sarı cevap
-    ('pointer',      'fg:#ffe198 bold'),       # Aynı sarıdan ok
-    ('highlighted',  'fg:#ffd166 bold'),       # Seçenek vurgusu
-    ('selected',     'fg:#fefefe'),       # Seçili metin (arka plan yok)
-    ('separator',    'fg:#aaaaaa'),            # Açık gri ayraç
-    ('instruction',  'fg:#ffe198 italic'),     # Açıklama, sarı italic
-    ('text',         'fg:#eeeeee'),            # Açık gri ana metin
-    ('disabled',     'fg:#888888 italic'),     # Pasif itemler
+    ('qmark',        'fg:#707070 bold'),   #
+    ('question',     'fg:#707070 bold'),     
+    ('answer',       'fg:#ffd166 bold'),      
+    ('pointer',      'fg:#ffe198 bold'),      
+    ('highlighted',  'fg:#ffd166 bold'),      
+    ('selected',     'fg:#fefefe'),       # 
+    ('separator',    'fg:#aaaaaa'),            
+    ('instruction',  'fg:#ffe198 italic'),    
+    ('text',         'fg:#eeeeee'),          
+    ('disabled',     'fg:#888888 italic'),   
 ])
 
 def clear():
