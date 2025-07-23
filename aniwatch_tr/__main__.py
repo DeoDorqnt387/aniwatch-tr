@@ -206,14 +206,12 @@ def menu(ani):
                         instruction=" "
                     ).ask()
                     
-                    if "Tüm Bölümleri İndir" in select_is3:
-                        # Tüm bölümleri indir
+                    if "Tüm Bölümleri İndir" in select_is3:        
                         downloader.setup_anime(anime_name, anime_id, episodes)
                         downloader.start_download()  # selected_episodes=None (tümü)
                         clear()
                         
                     elif "Bölüm Seç" in select_is3:
-                        # Bölüm seçimi yap ve indir
                         if episodes:
                             episode_names = [ep['name'] for ep in episodes]
                             selected_episodes = questionary.checkbox(
@@ -314,7 +312,6 @@ def menu(ani):
             break
         
 def main():
-    ## Check for updates
     check_pip_status()
 
     time.sleep(2.5)
