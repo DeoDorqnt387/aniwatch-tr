@@ -18,6 +18,8 @@ Aniwatch-TR
 ## 📑 İçindekiler
 - [Bilinen Sorunlar](#bilinen-sorunlar)
 - [Gereksinimler](#gereksinimler)
+    - [Linux](#linux)
+    - [Windows](#windows)
 - [Config Dosyası](#config-dosyası)
 - [Kurulum](#-kurulum)
     - [PIP ile Kurulum](#-pip-ile-kurulum)
@@ -35,33 +37,24 @@ Aniwatch-TR
 
 ## Gereksinimler
 
-### MPV / VLC
+## Linux
 
-Videoların oynatılabilmesi için bilgisayarınızda [MPV](https://mpv.io/) ve/veya [VLC](https://www.videolan.org/vlc/) kurulu olmalıdır.  
-Aksi takdirde videolar çalışmaz ve şu hatayı tetikler/karşılaşırsınız:
-
-```python
-if not self.is_player_available(player):
-    raise RuntimeError(f"Oynatıcı bulunamadı: {self.players[player]['name']}")
-```
+### MPV / VLC / Tkinter
 
 Linux (Arch/Arch-tabanlı)
 ```bash
-sudo pacman -S mpv vlc
+sudo pacman -S mpv vlc python3-tk
 ```
 
-Windows
-Kurulum için resmi siteleri ziyaret edebilirsiniz: 
-- [MPV](https://mpv.io/)  
-- [VLC](https://www.videolan.org/vlc/)
+## Windows
 
-### Tkinter (Klasör Seçimi için)
-Klasör seçim penceresi için tkinter modülü gereklidir.
+### Python
+Aniwatch-TR’yi kullanabilmek için bilgisayarınızda **Python 3.9 ile 3.12** sürümleri arasında bir sürüm kurulu olmalıdır.  
+Python 3.13 ve üzerinde test etmedim, çalışmayabilir. [Python resmi sitesi](https://www.python.org/downloads/)
 
-Ubuntu
-```bash
-sudo apt install python3-tk
-```
+### MPV/VLC
+
+Kurulum için resmi siteleri ziyaret edebilirsiniz: - [MPV](https://mpv.io/)  - [VLC](https://www.videolan.org/vlc/)
 
 ---
 
@@ -92,9 +85,6 @@ Herhangi bir sorun yaşarsanız config.json'u el ile düzeltebilirsiniz.
 ---
 
 ## 💻 Kurulum
-
-Aniwatch-TR’yi kullanabilmek için bilgisayarınızda **Python 3.9 ile 3.12** sürümleri arasında bir sürüm kurulu olmalıdır.  
-Python 3.13 ve üzerinde test etmedim, çalışmayabilir.
 
 ## 📦 PIP ile Kurulum
 
@@ -128,8 +118,8 @@ Kurulumu kaldırmak için:
 pip uninstall aniwatch-tr
 ```
 Windows için .exe kullanıyorsanız, dosyayı silmeniz yeterlidir.
-
-<sub>Config dosyasını da silmeyi unutmayın.</sub>
+> [!WARNING]  
+> <sub>Config dosyasını da silmeyi unutmayın.</sub>
 
 ---
 
